@@ -14,8 +14,11 @@ $(document).ready(function () {
 
   // FUNCTION DEFINITIONS
 
+  // gets college information by name of the school
+  // school name has autocomplete -- allows user to enter keywords to get a list of school with those words
+  // may be able to use this to autocomplete search field and then search for specific school
   function getCollegeInfo() {
-    var school = "New%20York";
+    var school = "University of Georgia";
 
     // api key
     var apiKey = "BZXyW8EkmJtygGmoPPNTT8iIeiTbeshMqgalfuXm";
@@ -23,8 +26,8 @@ $(document).ready(function () {
     // use latest. to get the most recent information
 
     var url =
-      "https://api.data.gov/ed/collegescorecard/v1/schools?_school.name=New%20York" +
-      //   school +
+      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url&school.name=" +
+      school +
       "&api_key=" +
       apiKey;
 
@@ -32,7 +35,15 @@ $(document).ready(function () {
       url: url,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
+      console.log("2");
+      //console.log(response);
+
+      // loops through results to get the exact school being searched for
+      for (var i = 0; i < response.results.length; i++) {
+        if (response.results[i]["school.name"] === school) {
+          console.log(school);
+        }
+      }
     });
   }
   function getCollegesByCity() {
@@ -43,7 +54,7 @@ $(document).ready(function () {
 
     // use latest. to get the most recent information
     var url =
-      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url&_school.city=" +
+      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url&school.city=" +
       city +
       "&api_key=" +
       apiKey;
@@ -52,6 +63,7 @@ $(document).ready(function () {
       url: url,
       method: "GET",
     }).then(function (response) {
+      console.log("1");
       console.log(response);
       // obtains a list of all school names
       //   for (var i = 0; i < response.results.length; i++) {
@@ -75,7 +87,8 @@ $(document).ready(function () {
 
   // FUNCTION CALLS
 
-  //getCollegesByCity();
+  getCollegesByCity();
+  console.log("colleges");
   getCollegeInfo();
 
   // EVENT LISTENERS
