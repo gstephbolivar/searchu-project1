@@ -1,4 +1,11 @@
 h1 {
+    color: blue;
+}
+
+.top-box {
+    width: 80%;
+    height: 20%;
+    background-color: plum;
   color: blue;
 }
 
@@ -13,3 +20,4 @@ h1 {
   text-align: center;
   font-family: "Oswald", sans-serif;
 }
+
