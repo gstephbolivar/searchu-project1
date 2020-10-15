@@ -21,8 +21,9 @@ $(document).ready(function () {
     var apiKey = "BZXyW8EkmJtygGmoPPNTT8iIeiTbeshMqgalfuXm";
 
     // use latest. to get the most recent information
+
     var url =
-      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.city,school.name,school.state&_school.name=charleston" +
+      "https://api.data.gov/ed/collegescorecard/v1/schools?_school.name=New%20York" +
       //   school +
       "&api_key=" +
       apiKey;
