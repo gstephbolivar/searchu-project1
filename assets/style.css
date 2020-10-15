@@ -6,4 +6,18 @@ h1 {
     width: 80%;
     height: 20%;
     background-color: plum;
+  color: blue;
 }
+
+.container-footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background-color: lightgray;
+  color: white;
+  text-align: center;
+  font-family: "Oswald", sans-serif;
+}
+
