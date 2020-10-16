@@ -85,6 +85,27 @@ $(document).ready(function () {
     });
   }
 
+  function createList(){
+    for (var i = 0; i < 6; i++) {
+      var newSchool = $("<div>")
+        .addClass("row");
+
+      newSchool.append(
+        '<h3 id="school">'+ schoolName +'</h3>'
+      );
+
+      newSchool.append(
+        '<h5 id="avg-cost">'+ annualCost +'</h5>'
+      );
+
+      newSchool.append(
+        '<a href="https://www.gsu.edu/" target="_blank">'+schoolURL+'</a>'
+      );
+
+      $("#school-list").append(newSchool);
+    }
+  }
+
   // FUNCTION CALLS
 
   getCollegesByCity();
@@ -92,4 +113,5 @@ $(document).ready(function () {
   getCollegeInfo();
 
   // EVENT LISTENERS
+  
 });
