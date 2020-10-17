@@ -85,10 +85,18 @@ var userCity = document.getElementById("city-search");
       );
 
       newSchool.append(
-        '<a href="'+schoolURL+'" target="_blank">'+
-          schoolURL +
+        '<a href="'+urlFormat(schoolURL)+'" target="_blank">'+
+          urlFormat(schoolURL) +
           "</a>"
       );
+
+        function urlFormat(site) {
+          if (site.substring(0,4) === "http"){
+            return site;
+          } else {
+            return "https://"+site;
+          }
+        }
 
       $("#school-list").append(newRow);
           // createList(schoolName, annualCost, schoolURL);
@@ -107,32 +115,7 @@ var userCity = document.getElementById("city-search");
     });
   }
 
-  function createList(schoolName, annualCost, schoolURL) {
-    for (var i = 0; i < 1; i++) {
-      var newRow = $("<div>").addClass("row");
-
-      var newSchool = $("<div>").addClass("col-md-12 m-4");
-
-      newRow.append(newSchool);
-
-      newSchool.append(
-        '<h3 id="school">' + "College Name: " + schoolName + "</h3>"
-      );
-
-      newSchool.append(
-        '<h5 id="avg-cost">' + "Annual Tuition: " + annualCost + "</h5>"
-      );
-
-      newSchool.append(
-        '<a href="https://www.gsu.edu/" target="_blank">' +
-          "College Website: " +
-          schoolURL +
-          "</a>"
-      );
-
-      $("#school-list").append(newRow);
-    }
-  }
+ 
   // Gets the city or cities if more than one with the same name
   function getQualityOfLife() {
     var city = "Atlanta";
