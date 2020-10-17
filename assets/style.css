@@ -48,6 +48,14 @@ body {
   float: right;
 }
 
+#submit-city:hover {
+  background-color: rgb(136, 72, 72);
+}
+
+#submit-school:hover {
+  background-color: rgb(136, 72, 72);
+}
+
 #submit-city {
   float: right;
   margin-right: 2%;
