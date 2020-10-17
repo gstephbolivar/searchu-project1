@@ -1,6 +1,5 @@
 $(document).ready(function () {
   console.log("This works");
-
   // DOM VARIABLES
 
   // JS VARIABLES
@@ -85,11 +84,37 @@ $(document).ready(function () {
     });
   }
 
+  // Gets the city or cities if more than one with the same name
+  function getQualityOfLife() {
+    var city = "Atlanta";
+    var queryURL = "https://api.teleport.org/api/cities/?search=" + city;
+
+    $.ajax({
+      url: queryURL,
+      method: "GET",
+    }).then(function (response) {
+      console.log(response);
+      console.log(queryURL);
+      for (
+        var i = 0;
+        i < response._embedded["city:search-results"].length;
+        i++
+      ) {
+        var cityName =
+          response._embedded["city:search-results"][i].matching_full_name;
+        console.log("City: " + cityName);
+      }
+      
+    });
+  }
+
   // FUNCTION CALLS
 
   getCollegesByCity();
   console.log("colleges");
   getCollegeInfo();
+
+  getQualityOfLife();
 
   // EVENT LISTENERS
 });
