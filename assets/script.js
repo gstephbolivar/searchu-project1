@@ -1,7 +1,7 @@
 $(document).ready(function () {
   console.log("This works");
   // DOM VARIABLES
-
+var userCity = document.getElementById("city-search");
   // JS VARIABLES
 
   var schoolName;
@@ -47,7 +47,7 @@ $(document).ready(function () {
   }
   function getCollegesByCity() {
     // variable to search API by city
-    var city = "atlanta";
+    var city = userCity.value;
     // api key
     var apiKey = "BZXyW8EkmJtygGmoPPNTT8iIeiTbeshMqgalfuXm";
 
@@ -65,27 +65,50 @@ $(document).ready(function () {
       console.log("1");
       console.log(response);
       // obtains a list of all school names
-      //   for (var i = 0; i < response.results.length; i++) {
-      //     schoolName = response.results[i]["school.name"];
-      //     schoolCity = response.results[i]["school.city"];
-      //     annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
-      //     admissionsRate =
-      //       response.results[i]["latest.admissions.admission_rate.overall"];
-      //     completionRate = response.results[i]["latest.completion.consumer_rate"];
-      //     schoolURL = response.results[i]["school.school_url"];
-      //     console.log("Name: " + schoolName);
-      //     console.log("URL: " + schoolURL);
-      //     console.log("City: " + schoolCity);
-      //     console.log("Admission Rate: " + admissionsRate);
-      //     console.log("Annual Cost: " + annualCost);
-      //     console.log("Completion Rate: " + completionRate);
-      //     console.log("--------");
-      //   }
+        for (var i = 0; i < response.results.length; i++) {
+          schoolName = response.results[i]["school.name"];
+          // schoolCity = response.results[i]["school.city"];
+          annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
+          schoolURL = response.results[i]["school.school_url"];
+          var newRow = $("<div>").addClass("row").attr("style", "background-color: white");
+
+      var newSchool = $("<div>").addClass("col-md-6 m-4");
+
+      newRow.append(newSchool);
+
+      newSchool.append(
+        '<h3 id="school">'+ schoolName + "</h3>"
+      );
+
+      newSchool.append(
+        '<h5 id="avg-cost">' + "Annual Tuition: " + annualCost + "</h5>"
+      );
+
+      newSchool.append(
+        '<a href="'+schoolURL+'" target="_blank">'+
+          schoolURL +
+          "</a>"
+      );
+
+      $("#school-list").append(newRow);
+          // createList(schoolName, annualCost, schoolURL);
+          // admissionsRate =
+          //   response.results[i]["latest.admissions.admission_rate.overall"];
+          // completionRate = response.results[i]["latest.completion.consumer_rate"];
+          // schoolURL = response.results[i]["school.school_url"];
+          // console.log("Name: " + schoolName);
+          // console.log("URL: " + schoolURL);
+          // console.log("City: " + schoolCity);
+          // console.log("Admission Rate: " + admissionsRate);
+          // console.log("Annual Cost: " + annualCost);
+          // console.log("Completion Rate: " + completionRate);
+          // console.log("--------");
+        }
     });
   }
 
-  function createList() {
-    for (var i = 0; i < 6; i++) {
+  function createList(schoolName, annualCost, schoolURL) {
+    for (var i = 0; i < 1; i++) {
       var newRow = $("<div>").addClass("row");
 
       var newSchool = $("<div>").addClass("col-md-12 m-4");
@@ -107,7 +130,7 @@ $(document).ready(function () {
           "</a>"
       );
 
-      $("#school-list").append(newSchool);
+      $("#school-list").append(newRow);
     }
   }
   // Gets the city or cities if more than one with the same name
@@ -146,6 +169,6 @@ $(document).ready(function () {
     event.preventDefault();
     $("#home-page").addClass("d-none");
     $("#school-list").removeClass("d-none");
-    createList();
+    getCollegesByCity();
   });
 });
