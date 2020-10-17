@@ -95,8 +95,13 @@ $(document).ready(function () {
     }).then(function (response) {
       console.log(response);
       console.log(queryURL);
-      for (var i = 0; i < response._embedded.length; i++){
-        var cityName = response._embedded[i]["city:search-results"];
+      for (
+        var i = 0;
+        i < response._embedded["city:search-results"].length;
+        i++
+      ) {
+        var cityName =
+          response._embedded["city:search-results"][i].matching_full_name;
         console.log("City: " + cityName);
       }
       
