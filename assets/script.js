@@ -117,7 +117,8 @@ $(document).ready(function () {
   getCollegeInfo();
 
   // EVENT LISTENERS
-  $("#city-search").on("click", ".btn", function(){
+  $("#city-search").on("click", ".btn", function(event){
+    event.preventDefault();
     $("#home-page").addClass("d-none");
     $("#school-list").removeClass("d-none");
     createList();
