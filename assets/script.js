@@ -96,7 +96,7 @@ $(document).ready(function () {
       console.log(response);
       console.log(queryURL);
       for (var i = 0; i < response._embedded.length; i++){
-        var cityName = response._embedded["city:search-results"];
+        var cityName = response._embedded[i]["city:search-results"];
         console.log("City: " + cityName);
       }
       
