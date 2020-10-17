@@ -67,8 +67,8 @@
             Search
           </button>
         </div>
-          <!-- City search input -->
-                    <!-- school search input -->
+        <!-- City search input -->
+        <!-- school search input -->
         <div class="col-md-6">
           <input type="text" placeholder="School" id="school-search" />
           <button type="submit" class="fas fa-university">Search</button>
@@ -77,6 +77,10 @@
     </main>
     <!-- start of "school list page" code -->
     <main class="container d-none" id="school-list">
+      <div class="row">
+        <div class="col-md-6" id="chosenbutton"></div>
+        <a class="col-md-6" id="widget"></a>
+      </div>
       <!-- <div class="row">
             <div class="col-md-12 m-5">
                 <h3 id="school"> Georgia State University</h3>
@@ -89,10 +93,17 @@
     <footer class="container-footer">
       <span class="text-muted"> Copyright </span>
     </footer>
-
     <!-- <a class="teleport-widget-link" href="https://teleport.org/cities/atlanta/"
       >Life quality score - Atlanta</a
-      > -->
+    > -->
+    <!-- <script
+      async
+      class="teleport-widget-script"
+      data-url="https://teleport.org/cities/atlanta/widget/scores/?currency=USD&citySwitcher=false"
+      data-max-width="770"
+      data-height="232"
+      src="https://teleport.org/assets/firefly/widget-snippet.min.js"
+    ></script> -->
 
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -113,14 +124,6 @@
       src="https://kit.fontawesome.com/0bd788ffbe.js"
       crossorigin="anonymous"
     ></script>
-    <!-- <script
-      async
-      class="teleport-widget-script"
-      data-url="https://teleport.org/cities/atlanta/widget/scores/?currency=USD&citySwitcher=false"
-      data-max-width="770"
-      data-height="519"
-      src="https://teleport.org/assets/firefly/widget-snippet.min.js"
-    ></script> -->
     <script src="./assets/script.js"></script>
   </body>
 </html>

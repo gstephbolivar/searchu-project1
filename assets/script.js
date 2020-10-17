@@ -72,7 +72,7 @@ $(document).ready(function () {
           schoolURL = response.results[i]["school.school_url"];
           var newRow = $("<div>").addClass("row").attr("style", "background-color: white");
 
-      var newSchool = $("<div>").addClass("col-md-6 m-4");
+      var newSchool = $("<div>").addClass("col-md-12 m-4");
 
       newRow.append(newSchool);
 
@@ -98,7 +98,7 @@ $(document).ready(function () {
           }
         }
 
-      $("#school-list").append(newRow);
+      $("#chosenbutton").append(newRow);
           // createList(schoolName, annualCost, schoolURL);
           // admissionsRate =
           //   response.results[i]["latest.admissions.admission_rate.overall"];
@@ -111,7 +111,22 @@ $(document).ready(function () {
           // console.log("Annual Cost: " + annualCost);
           // console.log("Completion Rate: " + completionRate);
           // console.log("--------");
+
+
+          // var nextRow = $("<div>").addClass("row");
+          // var widget = $("<a>")
+          //   .addClass("col-md-6 m-4 teleport-widget-link")
+          //   .attr("href=https://teleport.org/cities/atlanta/")
+          //   .text("Life quality score - Atlanta");
+          // console.log("widget",widget);
+          // nextRow.append(widget);
         }
+        var widget = $("#widget")
+          .addClass("col-md-6 m-4 teleport-widget-link")
+          .attr("href=https://teleport.org/cities/atlanta/")
+          .text("Life quality score - Atlanta");
+        console.log("widget",widget);
+        $("#widget").append(widget);
     });
   }
 
