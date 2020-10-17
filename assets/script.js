@@ -142,7 +142,7 @@ $(document).ready(function () {
   getQualityOfLife();
 
   // EVENT LISTENERS
-  $("#city-search").on("click", ".btn", function (event) {
+  $("#submit-city").on("click", function (event) {
     event.preventDefault();
     $("#home-page").addClass("d-none");
     $("#school-list").removeClass("d-none");

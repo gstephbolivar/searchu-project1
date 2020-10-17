@@ -1,11 +1,27 @@
-h1 {
-    color: blue;
+body {
+  background-image: url(./photos/library.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+#search-U1 {
+  font-family: "Cinzel Decorative", cursive;
+  color: white;
+  background: lightgray (0, 0, 0);
+  /* background: lightgray(0, 0, 0, 0.5);  */
+  margin-top: 20%;
+  font-size: 80px;
+  margin-left: auto;
 }
 
-.top-box {
-    width: 80%;
-    height: 20%;
-    background-color: plum;
+#search-U2 {
+  font-family: "Abril Fatface", cursive;
+  color: white;
+  background: lightgray(0, 0, 0); /* Fallback color */
+  /* background: lightgray(0, 0, 0, 1);  */
+  font-size: 150px;
+  margin-top: 15%;
+  margin-left: 1%;
+  margin-right: auto;
 }
 
 .container-footer {
@@ -20,3 +36,44 @@ h1 {
   font-family: "Oswald", sans-serif;
 }
 
+#Book {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  height: 250px;
+  width: 550px;
+}
+
+#city-search {
+  float: right;
+}
+
+#submit-city {
+  float: right;
+  margin-right: 2%;
+}
+
+#schoolSearch {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.glow {
+  font-size: 80px;
+  color: #fff;
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px black, 0 0 40px black,
+      0 0 50px black, 0 0 60px black, 0 0 70px black;
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px black, 0 0 40px black, 0 0 50px black,
+      0 0 60px black, 0 0 70px black, 0 0 80px black;
+  }
+}
