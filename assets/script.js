@@ -1,7 +1,7 @@
 $(document).ready(function () {
   console.log("This works");
   // DOM VARIABLES
-
+var userCity = document.getElementById("city-search");
   // JS VARIABLES
 
   var schoolName;
@@ -47,7 +47,7 @@ $(document).ready(function () {
   }
   function getCollegesByCity() {
     // variable to search API by city
-    var city = "atlanta";
+    var city = userCity.value;
     // api key
     var apiKey = "BZXyW8EkmJtygGmoPPNTT8iIeiTbeshMqgalfuXm";
 
@@ -70,7 +70,28 @@ $(document).ready(function () {
           // schoolCity = response.results[i]["school.city"];
           annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
           schoolURL = response.results[i]["school.school_url"];
-          createList(schoolName, annualCost, schoolURL);
+          var newRow = $("<div>").addClass("row").attr("style", "background-color: white");
+
+      var newSchool = $("<div>").addClass("col-md-6 m-4");
+
+      newRow.append(newSchool);
+
+      newSchool.append(
+        '<h3 id="school">'+ schoolName + "</h3>"
+      );
+
+      newSchool.append(
+        '<h5 id="avg-cost">' + "Annual Tuition: " + annualCost + "</h5>"
+      );
+
+      newSchool.append(
+        '<a href="'+schoolURL+'" target="_blank">'+
+          schoolURL +
+          "</a>"
+      );
+
+      $("#school-list").append(newRow);
+          // createList(schoolName, annualCost, schoolURL);
           // admissionsRate =
           //   response.results[i]["latest.admissions.admission_rate.overall"];
           // completionRate = response.results[i]["latest.completion.consumer_rate"];
@@ -87,7 +108,7 @@ $(document).ready(function () {
   }
 
   function createList(schoolName, annualCost, schoolURL) {
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < 1; i++) {
       var newRow = $("<div>").addClass("row");
 
       var newSchool = $("<div>").addClass("col-md-12 m-4");
@@ -109,7 +130,7 @@ $(document).ready(function () {
           "</a>"
       );
 
-      $("#school-list").append(newSchool);
+      $("#school-list").append(newRow);
     }
   }
   // Gets the city or cities if more than one with the same name
@@ -144,10 +165,10 @@ $(document).ready(function () {
   getQualityOfLife();
 
   // EVENT LISTENERS
-  $("#city-search").on("click", ".btn", function (event) {
+  $("#submit-city").on("click", function (event) {
     event.preventDefault();
     $("#home-page").addClass("d-none");
     $("#school-list").removeClass("d-none");
-    createList();
+    getCollegesByCity();
   });
 });
