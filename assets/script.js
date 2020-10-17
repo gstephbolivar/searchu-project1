@@ -65,72 +65,87 @@ $(document).ready(function () {
       console.log("1");
       console.log(response);
       // obtains a list of all school names
-        for (var i = 0; i < response.results.length; i++) {
-          schoolName = response.results[i]["school.name"];
-          // schoolCity = response.results[i]["school.city"];
-          annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
-          schoolURL = response.results[i]["school.school_url"];
-          var newRow = $("<div>").addClass("row").attr("style", "background-color: white");
+      for (var i = 0; i < response.results.length; i++) {
+        schoolName = response.results[i]["school.name"];
+        // schoolCity = response.results[i]["school.city"];
+        annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
+        schoolURL = response.results[i]["school.school_url"];
+        var newRow = $("<div>")
+          .addClass("row")
+          .attr("style", "background-color: white");
 
-      var newSchool = $("<div>").addClass("col-md-12 m-4");
+        var newSchool = $("<div>").addClass("col-md-12 m-4");
 
-      newRow.append(newSchool);
+        newRow.append(newSchool);
 
-      newSchool.append(
-        '<h3 id="school">'+ schoolName + "</h3>"
-      );
+        newSchool.append('<h3 id="school">' + schoolName + "</h3>");
 
-      newSchool.append(
-        '<h5 id="avg-cost">' + "Annual Tuition: " + annualCost + "</h5>"
-      );
+        newSchool.append(
+          '<h5 id="avg-cost">' + "Annual Tuition: " + annualCost + "</h5>"
+        );
 
-      newSchool.append(
-        '<a href="'+urlFormat(schoolURL)+'" target="_blank">'+
-          urlFormat(schoolURL) +
-          "</a>"
-      );
+        newSchool.append(
+          '<a href="' +
+            urlFormat(schoolURL) +
+            '" target="_blank">' +
+            urlFormat(schoolURL) +
+            "</a>"
+        );
 
         function urlFormat(site) {
-          if (site.substring(0,4) === "http"){
+          if (site.substring(0, 4) === "http") {
             return site;
           } else {
-            return "https://"+site;
+            return "https://" + site;
           }
         }
 
-      $("#chosenbutton").append(newRow);
-          // createList(schoolName, annualCost, schoolURL);
-          // admissionsRate =
-          //   response.results[i]["latest.admissions.admission_rate.overall"];
-          // completionRate = response.results[i]["latest.completion.consumer_rate"];
-          // schoolURL = response.results[i]["school.school_url"];
-          // console.log("Name: " + schoolName);
-          // console.log("URL: " + schoolURL);
-          // console.log("City: " + schoolCity);
-          // console.log("Admission Rate: " + admissionsRate);
-          // console.log("Annual Cost: " + annualCost);
-          // console.log("Completion Rate: " + completionRate);
-          // console.log("--------");
+        $("#chosenbutton").append(newRow);
+        // createList(schoolName, annualCost, schoolURL);
+        // admissionsRate =
+        //   response.results[i]["latest.admissions.admission_rate.overall"];
+        // completionRate = response.results[i]["latest.completion.consumer_rate"];
+        // schoolURL = response.results[i]["school.school_url"];
+        // console.log("Name: " + schoolName);
+        // console.log("URL: " + schoolURL);
+        // console.log("City: " + schoolCity);
+        // console.log("Admission Rate: " + admissionsRate);
+        // console.log("Annual Cost: " + annualCost);
+        // console.log("Completion Rate: " + completionRate);
+        // console.log("--------");
+      }
+      var widget = $("<a>");
+      widget.addClass("teleport-widget-link");
+      widget.attr("href", "https://teleport.org/cities/atlanta/");
+      widget.text("Life quality score - Atlanta");
+      console.log("widget", widget);
+      $("#widget").append(widget);
 
+      var widgetQuality = $("<script>");
+      widgetQuality.addClass("async");
+      widgetQuality.attr("type", "text/javascript");
+      widgetQuality.addClass("teleport-widget-script");
+      widgetQuality.attr(
+        "data-url",
+        "https://teleport.org/cities/atlanta/widget/scores/?currency=USD&citySwitcher=false"
+      );
+      widgetQuality.attr("data-max-width", "770");
+      widgetQuality.attr("data-height", "232");
+      widgetQuality.attr(
+        "src",
+        "https://teleport.org/assets/firefly/widget-snippet.min.js"
+      );
+      $("<body>").append(widgetQuality);
 
-          // var nextRow = $("<div>").addClass("row");
-          // var widget = $("<a>")
-          //   .addClass("col-md-6 m-4 teleport-widget-link")
-          //   .attr("href=https://teleport.org/cities/atlanta/")
-          //   .text("Life quality score - Atlanta");
-          // console.log("widget",widget);
-          // nextRow.append(widget);
-        }
-        var widget = $("#widget")
-          .addClass("col-md-6 m-4 teleport-widget-link")
-          .attr("href=https://teleport.org/cities/atlanta/")
-          .text("Life quality score - Atlanta");
-        console.log("widget",widget);
-        $("#widget").append(widget);
+      // var widget = $("<a>")
+      //   .addClass("teleport-widget-link")
+      //   .attr("href=https://teleport.org/cities/atlanta/")
+      //   .text("Life quality score - Atlanta");
+      // console.log("widget",widget);
+      // $("#widget").append(widget);
     });
   }
 
- 
   // Gets the city or cities if more than one with the same name
   function getQualityOfLife() {
     var city = "Atlanta";
@@ -140,7 +155,7 @@ $(document).ready(function () {
       url: queryURL,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
+      console.log("quality" + JSON.stringify(response));
       console.log(queryURL);
       for (
         var i = 0;
