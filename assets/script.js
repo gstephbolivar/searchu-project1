@@ -85,10 +85,18 @@ var userCity = document.getElementById("city-search");
       );
 
       newSchool.append(
-        '<a href="'+schoolURL+'" target="_blank">'+
-          schoolURL +
+        '<a href="'+urlFormat(schoolURL)+'" target="_blank">'+
+          urlFormat(schoolURL) +
           "</a>"
       );
+
+        function urlFormat(site) {
+          if (site.substring(0,4) === "http"){
+            return site;
+          } else {
+            return "https://"+site;
+          }
+        }
 
       $("#school-list").append(newRow);
           // createList(schoolName, annualCost, schoolURL);
