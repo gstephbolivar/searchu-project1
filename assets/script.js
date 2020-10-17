@@ -65,26 +65,28 @@ $(document).ready(function () {
       console.log("1");
       console.log(response);
       // obtains a list of all school names
-      //   for (var i = 0; i < response.results.length; i++) {
-      //     schoolName = response.results[i]["school.name"];
-      //     schoolCity = response.results[i]["school.city"];
-      //     annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
-      //     admissionsRate =
-      //       response.results[i]["latest.admissions.admission_rate.overall"];
-      //     completionRate = response.results[i]["latest.completion.consumer_rate"];
-      //     schoolURL = response.results[i]["school.school_url"];
-      //     console.log("Name: " + schoolName);
-      //     console.log("URL: " + schoolURL);
-      //     console.log("City: " + schoolCity);
-      //     console.log("Admission Rate: " + admissionsRate);
-      //     console.log("Annual Cost: " + annualCost);
-      //     console.log("Completion Rate: " + completionRate);
-      //     console.log("--------");
-      //   }
+        for (var i = 0; i < response.results.length; i++) {
+          schoolName = response.results[i]["school.name"];
+          // schoolCity = response.results[i]["school.city"];
+          annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
+          schoolURL = response.results[i]["school.school_url"];
+          createList(schoolName, annualCost, schoolURL);
+          // admissionsRate =
+          //   response.results[i]["latest.admissions.admission_rate.overall"];
+          // completionRate = response.results[i]["latest.completion.consumer_rate"];
+          // schoolURL = response.results[i]["school.school_url"];
+          // console.log("Name: " + schoolName);
+          // console.log("URL: " + schoolURL);
+          // console.log("City: " + schoolCity);
+          // console.log("Admission Rate: " + admissionsRate);
+          // console.log("Annual Cost: " + annualCost);
+          // console.log("Completion Rate: " + completionRate);
+          // console.log("--------");
+        }
     });
   }
 
-  function createList() {
+  function createList(schoolName, annualCost, schoolURL) {
     for (var i = 0; i < 6; i++) {
       var newRow = $("<div>").addClass("row");
 
