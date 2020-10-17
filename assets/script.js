@@ -84,6 +84,32 @@ $(document).ready(function () {
     });
   }
 
+  function createList() {
+    for (var i = 0; i < 6; i++) {
+      var newRow = $("<div>").addClass("row");
+
+      var newSchool = $("<div>").addClass("col-md-12 m-4");
+
+      newRow.append(newSchool);
+
+      newSchool.append(
+        '<h3 id="school">' + "College Name: " + schoolName + "</h3>"
+      );
+
+      newSchool.append(
+        '<h5 id="avg-cost">' + "Annual Tuition: " + annualCost + "</h5>"
+      );
+
+      newSchool.append(
+        '<a href="https://www.gsu.edu/" target="_blank">' +
+          "College Website: " +
+          schoolURL +
+          "</a>"
+      );
+
+      $("#school-list").append(newSchool);
+    }
+  }
   // Gets the city or cities if more than one with the same name
   function getQualityOfLife() {
     var city = "Atlanta";
@@ -104,7 +130,6 @@ $(document).ready(function () {
           response._embedded["city:search-results"][i].matching_full_name;
         console.log("City: " + cityName);
       }
-      
     });
   }
 
@@ -117,4 +142,10 @@ $(document).ready(function () {
   getQualityOfLife();
 
   // EVENT LISTENERS
+  $("#city-search").on("click", ".btn", function (event) {
+    event.preventDefault();
+    $("#home-page").addClass("d-none");
+    $("#school-list").removeClass("d-none");
+    createList();
+  });
 });
