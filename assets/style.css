@@ -6,8 +6,8 @@ body {
 #search-U1 {
   font-family: "Cinzel Decorative", cursive;
   color: white;
-  background: rgb(0, 0, 0); /* Fallback color */
-  background: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
+  background: lightgray (0, 0, 0);
+  /* background: lightgray(0, 0, 0, 0.5);  */
   margin-top: 20%;
   font-size: 80px;
   margin-left: auto;
@@ -16,8 +16,8 @@ body {
 #search-U2 {
   font-family: "Abril Fatface", cursive;
   color: white;
-  background: rgb(0, 0, 0); /* Fallback color */
-  background: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
+  background: lightgray(0, 0, 0); /* Fallback color */
+  /* background: lightgray(0, 0, 0, 1);  */
   font-size: 150px;
   margin-top: 15%;
   margin-left: 1%;
@@ -44,9 +44,13 @@ body {
   width: 550px;
 }
 
-#citySearch {
-  margin-left: auto;
-  margin-right: auto;
+#city-search {
+  float: right;
+}
+
+#submit-city {
+  float: right;
+  margin-right: 2%;
 }
 
 #schoolSearch {
