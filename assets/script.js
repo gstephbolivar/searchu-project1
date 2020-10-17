@@ -71,6 +71,15 @@ $(document).ready(function () {
             urlFormat(schoolURL) +
             "</a>"
         );
+
+        // clearbit api to add university logos
+        // newSchool.append(
+        //   $("<img>").attr(
+        //     "src",
+        //     "https://logo.clearbit.com/" + urlFormat(schoolURL)
+        //   )
+        // );
+
         $("#school-list").append(newRow);
       }
     });
