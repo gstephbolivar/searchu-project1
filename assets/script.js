@@ -19,6 +19,8 @@ $(document).ready(function () {
   // gets college information by name of the school
   // school name has autocomplete -- allows user to enter keywords to get a list of school with those words
   // may be able to use this to autocomplete search field and then search for specific school
+
+  // I want to use this function to just be the API call and maybe pass in parameters that will determine what function is called within this to a) populate the list of universities or b) populate the information for the selected school
   function getCollegeInfo() {
     // gets the school searched to pass to the API
     var school = userSchool.val();
@@ -42,61 +44,63 @@ $(document).ready(function () {
       //console.log("2");
       //console.log(response);
 
-      // loops through results to get the exact school being searched for
-      for (var i = 0; i < response.results.length; i++) {
-        //console.log(response.results[i]["school.name"]);
-        schoolName = response.results[i]["school.name"];
-        schoolCity = response.results[i]["school.city"];
-        schoolState = response.results[i]["school.state"];
-        annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
-        schoolURL = response.results[i]["school.school_url"];
+      //populateCollegeList(schoolName, schoolCity, schoolState, schoolURL);
 
-        // calls populate college list function
-        populateCollegeList(schoolName, schoolCity, schoolState, schoolURL);
-      }
+      // calls populate college list function passing the object from the API call
+      populateCollegeList(response);
     });
   }
 
-  // creates the buttons for each college from the API call
-  function populateCollegeList(name, city, state, url) {
-    // creates a new button with the name of the school, the city and state, and the url
-    var newRowBtn = $("<button>").addClass(
-      "list-group-item list-group-item-action col-md-12"
-    );
+  // creates the buttons for each college from the API call object
+  function populateCollegeList(response) {
+    for (var i = 0; i < response.results.length; i++) {
+      //console.log(response.results[i]["school.name"]);
+      schoolName = response.results[i]["school.name"];
+      schoolCity = response.results[i]["school.city"];
+      schoolState = response.results[i]["school.state"];
+      annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
+      schoolURL = response.results[i]["school.school_url"];
+      // creates a new button with the name of the school, the city and state, and the url
+      var newRowBtn = $("<button>").addClass(
+        "list-group-item list-group-item-action col-md-12"
+      );
+      newRowBtn.attr("school-name", schoolName);
 
-    // sets the logo for the university on the button
-    var collegeLogo = $("<img>").attr(
-      "src",
-      "https://logo.clearbit.com/" + urlFormat(url)
-    );
+      // sets the logo for the university on the button
+      var collegeLogo = $("<img>").attr(
+        "src",
+        "https://logo.clearbit.com/" + urlFormat(schoolURL)
+      );
 
-    // sets default image in case clearbit is not able to pull university logo
-    collegeLogo.attr(
-      "onerror",
-      "this.onerror=null;this.src='./assets/photos/generic-uni-logo.png'"
-    );
+      // sets default image in case clearbit is not able to pull university logo
+      collegeLogo.attr(
+        "onerror",
+        "this.onerror=null;this.src='./assets/photos/generic-uni-logo.png'"
+      );
 
-    // sets the styling the logo
-    collegeLogo.addClass("float-left pr-3");
-    newRowBtn.append(collegeLogo);
+      // sets the styling the logo
+      collegeLogo.addClass("float-left pr-3");
+      newRowBtn.append(collegeLogo);
 
-    newRowBtn.append('<h3 id="school">' + name + "</h3>");
+      newRowBtn.append('<h3 id="school">' + schoolName + "</h3>");
 
-    newRowBtn.append(
-      '<h5 id="city">' + "City: " + city + ", " + state + "</h5>"
-    );
+      newRowBtn.append(
+        '<h5 id="city">' + "City: " + schoolCity + ", " + schoolState + "</h5>"
+      );
 
-    newRowBtn.append(
-      "Website: " +
-        '<a href="' +
-        urlFormat(url) +
-        '" target="_blank">' +
-        urlFormat(url) +
-        "</a>"
-    );
+      newRowBtn.append(
+        "Website: " +
+          '<a href="' +
+          urlFormat(schoolURL) +
+          '" target="_blank">' +
+          urlFormat(schoolURL) +
+          "</a>"
+      );
 
-    $("#uni-buttons").append(newRowBtn);
+      $("#uni-buttons").append(newRowBtn);
+    }
   }
+
   function getCollegesByCity() {
     // variable to search API by city
     var city = userCity.value;
@@ -243,4 +247,7 @@ $(document).ready(function () {
     $("#uni-list").removeClass("d-none");
     getCollegeInfo();
   });
+
+  // need to create event listener to check for when a university button is pressed --> this will call function to display university information
+  // could possible use the same functions if parameters are passed in properly to fork which function are called after the API information is received
 });
