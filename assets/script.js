@@ -8,6 +8,7 @@ $(document).ready(function () {
 
   var schoolName;
   var schoolCity;
+  var schoolState;
   var annualCost;
   var admissionsRate;
   var completionRate;
@@ -28,7 +29,7 @@ $(document).ready(function () {
     // use latest. to get the most recent information
 
     var url =
-      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,school.city,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url&school.name=" +
+      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,school.city,school.state,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url&school.name=" +
       school +
       "&api_key=" +
       apiKey;
@@ -45,27 +46,46 @@ $(document).ready(function () {
         console.log(response.results[i]["school.name"]);
         schoolName = response.results[i]["school.name"];
         schoolCity = response.results[i]["school.city"];
+        schoolState = response.results[i]["school.state"];
         annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
         schoolURL = response.results[i]["school.school_url"];
 
-        var newRow = $("<div>")
-          .addClass("row")
-          .attr("style", "background-color: white");
-
-        var newSchool = $("<div>").addClass("col-md-6 m-4");
-
-        newRow.append(newSchool);
-
-        newSchool.append('<h3 id="school">' + schoolName + "</h3>");
-
-        newSchool.append('<h5 id="city">' + "City: " + schoolCity + "</h5>");
-
-        newSchool.append(
-          '<h5 id="avg-cost">' + "Annual Tuition: " + annualCost + "</h5>"
+        // creates a new button with the name of the school, the city and state, and the url
+        var newRowBtn = $("<button>").addClass(
+          "list-group-item list-group-item-action col-md-12"
         );
 
-        newSchool.append(
-          '<a href="' +
+        // sets the logo for the university on the button
+        var collegeLogo = $("<img>").attr(
+          "src",
+          "https://logo.clearbit.com/" + urlFormat(schoolURL)
+        );
+
+        // sets default image in case clearbit is not able to pull university logo
+        collegeLogo.attr(
+          "onerror",
+          "this.onerror=null;this.src='./assets/photos/generic-uni-logo.png'"
+        );
+
+        //collegeLogo.attr("style", "float: left");
+
+        collegeLogo.addClass("float-left pr-3");
+        newRowBtn.append(collegeLogo);
+
+        newRowBtn.append('<h3 id="school">' + schoolName + "</h3>");
+
+        newRowBtn.append(
+          '<h5 id="city">' +
+            "City: " +
+            schoolCity +
+            ", " +
+            schoolState +
+            "</h5>"
+        );
+
+        newRowBtn.append(
+          "Website: " +
+            '<a href="' +
             urlFormat(schoolURL) +
             '" target="_blank">' +
             urlFormat(schoolURL) +
@@ -79,8 +99,8 @@ $(document).ready(function () {
         //     "https://logo.clearbit.com/" + urlFormat(schoolURL)
         //   )
         // );
-
-        $("#chosenbutton").append(newRow);
+        //newSchool.append(newRowBtn);
+        $("#uni-buttons").append(newRowBtn);
       }
     });
   }
@@ -228,7 +248,7 @@ $(document).ready(function () {
   $("#submit-school").on("click", function (event) {
     event.preventDefault();
     $("#home-page").addClass("d-none");
-    $("#school-list").removeClass("d-none");
+    $("#uni-list").removeClass("d-none");
     getCollegeInfo();
   });
 });
