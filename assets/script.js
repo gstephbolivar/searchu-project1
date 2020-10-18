@@ -42,7 +42,8 @@ $(document).ready(function () {
       method: "GET",
     }).then(function (response) {
       //console.log("2");
-      //console.log(response);
+      console.log("city"+JSON.stringify(response, null, 2));
+
 
       //populateCollegeList(schoolName, schoolCity, schoolState, schoolURL);
 
@@ -119,7 +120,7 @@ $(document).ready(function () {
       method: "GET",
     }).then(function (response) {
       //console.log("1");
-      //console.log(response);
+      console.log("city"+JSON.stringify(response, null, 2));
       // obtains a list of all school names
       for (var i = 0; i < response.results.length; i++) {
         schoolName = response.results[i]["school.name"];
@@ -137,7 +138,7 @@ $(document).ready(function () {
         newSchool.append('<h3 id="school">' + schoolName + "</h3>");
 
         newSchool.append(
-          '<h5 id="avg-cost">' + "Annual Tuition: " + annualCost + "</h5>"
+          '<h5 id="avg-cost">' + "Annual Tuition: " + formatNumber(annualCost) + "</h5>"
         );
 
         newSchool.append(
@@ -200,6 +201,16 @@ $(document).ready(function () {
       return "https://" + site;
     }
   }
+
+  function formatNumber(num) {
+    if (num === null){
+      return "N/A"
+    } else {
+      return "$"+num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    }
+    
+  } 
+ 
 
   // Gets the city or cities if more than one with the same name
   function getQualityOfLife() {
