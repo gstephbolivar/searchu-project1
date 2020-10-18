@@ -80,3 +80,12 @@ body {
       0 0 60px black, 0 0 70px black, 0 0 80px black;
   }
 }
+
+#aboutUsText {
+  font-family: "Abril Fatface", cursive;
+  font-size: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  color: black;
+  background: white;
+}
