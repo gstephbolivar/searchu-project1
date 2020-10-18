@@ -114,35 +114,29 @@ $(document).ready(function () {
         // console.log("Completion Rate: " + completionRate);
         // console.log("--------");
       }
-      var widget = $("<a>");
-      widget.addClass("teleport-widget-link");
-      widget.attr("href", "https://teleport.org/cities/atlanta/");
-      widget.text("Life quality score - Atlanta");
-      console.log("widget", widget);
-      $("#widget").append(widget);
-
-      var widgetQuality = $("<script>");
-      widgetQuality.addClass("async");
-      widgetQuality.attr("type", "text/javascript");
-      widgetQuality.addClass("teleport-widget-script");
-      widgetQuality.attr(
-        "data-url",
-        "https://teleport.org/cities/atlanta/widget/scores/?currency=USD&citySwitcher=false"
-      );
-      widgetQuality.attr("data-max-width", "770");
-      widgetQuality.attr("data-height", "232");
-      widgetQuality.attr(
-        "src",
-        "https://teleport.org/assets/firefly/widget-snippet.min.js"
-      );
-      $("<body>").append(widgetQuality);
-
-      // var widget = $("<a>")
-      //   .addClass("teleport-widget-link")
-      //   .attr("href=https://teleport.org/cities/atlanta/")
-      //   .text("Life quality score - Atlanta");
-      // console.log("widget",widget);
+      // var widget = $("<a>");
+      // widget.addClass("teleport-widget-link");
+      // widget.attr("href", "https://teleport.org/cities/atlanta/");
+      // widget.text("Life quality score - Atlanta");
+      // console.log("widget", widget);
       // $("#widget").append(widget);
+
+      // var widgetQuality = $("<script>");
+      // widgetQuality.addClass("async");
+      // widgetQuality.attr("type", "text/javascript");
+      // widgetQuality.addClass("teleport-widget-script");
+      // widgetQuality.attr(
+      //   "data-url",
+      //   "https://teleport.org/cities/atlanta/widget/scores/?currency=USD&citySwitcher=false"
+      // );
+      // widgetQuality.attr("data-max-width", "770");
+      // widgetQuality.attr("data-height", "232");
+      // widgetQuality.attr(
+      //   "src",
+      //   "https://teleport.org/assets/firefly/widget-snippet.min.js"
+      // );
+      // $("<body>").append(widgetQuality);
+
     });
   }
 
@@ -166,17 +160,40 @@ $(document).ready(function () {
           response._embedded["city:search-results"][i].matching_full_name;
         console.log("City: " + cityName);
       }
+
+      // var widget = $("<a>");
+      // widget.addClass("teleport-widget-link");
+      // widget.attr("href", "https://teleport.org/cities/atlanta/");
+      // widget.text("Life quality score - Atlanta");
+      // console.log("widget", widget);
+      // $("#widget").append(widget);
+
+      // var widgetQuality = $("<script>");
+      // widgetQuality.addClass("async");
+      // widgetQuality.attr("type", "text/javascript");
+      // widgetQuality.addClass("teleport-widget-script");
+      // widgetQuality.attr(
+      //   "data-url",
+      //   "https://teleport.org/cities/atlanta/widget/scores/?currency=USD&citySwitcher=false"
+      // );
+      // widgetQuality.attr("data-max-width", "770");
+      // widgetQuality.attr("data-height", "232");
+      // widgetQuality.attr(
+      //   "src",
+      //   "https://teleport.org/assets/firefly/widget-snippet.min.js"
+      // );
+      // $("<body>").append(widgetQuality);
     });
   }
 
   // FUNCTION CALLS
 
-  getCollegesByCity();
+  // getCollegesByCity();
   console.log("colleges");
   getCollegeInfo();
 
-  getQualityOfLife();
-  // qWidget();
+  // getQualityOfLife();
+  
 
   // EVENT LISTENERS
   $("#submit-city").on("click", function (event) {
@@ -184,5 +201,6 @@ $(document).ready(function () {
     $("#home-page").addClass("d-none");
     $("#school-list").removeClass("d-none");
     getCollegesByCity();
+    getQualityOfLife();
   });
 });
