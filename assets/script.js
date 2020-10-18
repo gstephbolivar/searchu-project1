@@ -100,6 +100,18 @@ $(document).ready(function () {
 
       $("#uni-buttons").append(newRowBtn);
     }
+    // event listener to create school page
+    $("#uni-buttons").on("click", "button", function(event){
+      event.preventDefault();
+      $("#uni-list").addClass("d-none");
+      schoolPage($(this).attr("school-name"));
+    
+
+    })
+  }
+
+  function schoolPage(school) {
+    console.log(school);
   }
 
   function getCollegesByCity() {
