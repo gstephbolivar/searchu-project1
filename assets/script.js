@@ -80,7 +80,7 @@ $(document).ready(function () {
         //   )
         // );
 
-        $("#school-list").append(newRow);
+        $("#chosenbutton").append(newRow);
       }
     });
   }
@@ -115,7 +115,7 @@ $(document).ready(function () {
           .addClass("row")
           .attr("style", "background-color: white");
 
-        var newSchool = $("<div>").addClass("col-md-6 m-4");
+        var newSchool = $("<div>").addClass("col-md-12 m-4");
 
         newRow.append(newSchool);
 
@@ -133,7 +133,7 @@ $(document).ready(function () {
             "</a>"
         );
 
-        $("#school-list").append(newRow);
+        $("#chosenbutton").append(newRow);
         // createList(schoolName, annualCost, schoolURL);
         // admissionsRate =
         //   response.results[i]["latest.admissions.admission_rate.overall"];
