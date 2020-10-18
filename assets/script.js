@@ -42,7 +42,8 @@ $(document).ready(function () {
       method: "GET",
     }).then(function (response) {
       //console.log("2");
-      //console.log(response);
+      console.log("city"+JSON.stringify(response, null, 2));
+
 
       //populateCollegeList(schoolName, schoolCity, schoolState, schoolURL);
 
@@ -119,28 +120,39 @@ $(document).ready(function () {
       method: "GET",
     }).then(function (response) {
       //console.log("1");
-      //console.log(response);
+      console.log("city"+JSON.stringify(response, null, 2));
       // obtains a list of all school names
       for (var i = 0; i < response.results.length; i++) {
         schoolName = response.results[i]["school.name"];
         // schoolCity = response.results[i]["school.city"];
         annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
         schoolURL = response.results[i]["school.school_url"];
-        var newRow = $("<div>")
-          .addClass("row")
-          .attr("style", "background-color: white");
+        completionRate = response.results[i]["latest.completion.consumer_rate"];
+        var newRow = $("<button>")
+          .addClass("list-group-item list-group-item-action col-md-12")
 
-        var newSchool = $("<div>").addClass("col-md-12 m-4");
+        // sets the logo for the university on the button
+      var collegeLogo = $("<img>").attr(
+        "src",
+        "https://logo.clearbit.com/" + urlFormat(schoolURL)
+      );
 
-        newRow.append(newSchool);
+      // sets default image in case clearbit is not able to pull university logo
+      collegeLogo.attr(
+        "onerror",
+        "this.onerror=null;this.src='./assets/photos/generic-uni-logo.png'"
+      );
 
-        newSchool.append('<h3 id="school">' + schoolName + "</h3>");
+      // sets the styling the logo
+      collegeLogo.addClass("float-left pr-3");
+      newRow.append(collegeLogo);
 
-        newSchool.append(
-          '<h5 id="avg-cost">' + "Annual Tuition: " + annualCost + "</h5>"
+        newRow.append('<h3 id="school">' + schoolName + '</h3>');
+        newRow.append(
+          '<h5 id="avg-cost">' + "Annual Tuition: " + formatTuition(annualCost) + "</h5>"
         );
-
-        newSchool.append(
+        newRow.append('<h5 id="comp-rate">'+"Completion Rate: "+formatCompRate(completionRate)+'</h5>');
+        newRow.append(
           '<a href="' +
             urlFormat(schoolURL) +
             '" target="_blank">' +
@@ -200,6 +212,24 @@ $(document).ready(function () {
       return "https://" + site;
     }
   }
+
+  function formatTuition(num) {
+    if (num === null){
+      return "N/A"
+    } else {
+      return "$"+num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    }
+    
+  } 
+
+  function formatCompRate(rate) {
+    if (rate === null){
+      return "N/A"
+    } else {
+      return Math.ceil(rate * 100)+"%";
+    }
+  }
+ 
 
   // Gets the city or cities if more than one with the same name
   function getQualityOfLife() {
