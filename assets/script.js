@@ -100,7 +100,17 @@ $(document).ready(function () {
 
       $("#uni-buttons").append(newRowBtn);
     }
+    // event listener to create school page
+    $("#uni-buttons").on("click", "button", function(event){
+      event.preventDefault();
+      $("#uni-list").addClass("d-none");
+      schoolPage($(this).attr("school-name"));
+      $("#final-page").removeClass("d-none");
+
+    })
   }
+
+  
 
   function getCollegesByCity() {
     // variable to search API by city
@@ -129,8 +139,8 @@ $(document).ready(function () {
         schoolURL = response.results[i]["school.school_url"];
         completionRate = response.results[i]["latest.completion.consumer_rate"];
         var newRow = $("<button>")
-          .addClass("list-group-item list-group-item-action col-md-12")
-
+          .addClass("list-group-item list-group-item-action col-md-12");
+          newRow.attr("school-name", schoolName);
         // sets the logo for the university on the button
       var collegeLogo = $("<img>").attr(
         "src",
@@ -204,7 +214,20 @@ $(document).ready(function () {
       // console.log("widget",widget);
       // $("#widget").append(widget);
     });
+    $("#chosenbutton").on("click", "button", function(event){
+      event.preventDefault();
+      $("#school-list").addClass("d-none");
+      schoolPage($(this).attr("school-name"));
+      $("#final-page").removeClass("d-none");
+
+    })
   }
+
+  function schoolPage(school) {
+    console.log(school);
+    $("#school-info").append('<h1>'+school+'</h1>').attr("style", "background-color: white");
+  }
+  
   function urlFormat(site) {
     if (site.substring(0, 4) === "http") {
       return site;
@@ -256,7 +279,7 @@ $(document).ready(function () {
 
   // FUNCTION CALLS
 
-  getCollegesByCity();
+  
   console.log("colleges");
 
   getQualityOfLife();
