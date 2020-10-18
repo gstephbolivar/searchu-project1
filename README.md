@@ -13,3 +13,15 @@
 [Clearbit Logo API](https://clearbit.com/docs?shell#logo-api)
 
 - Obtains company logos
+
+Code to get logos from clearbit
+
+````// clearbit api to add university logos
+// newSchool.append(
+// \$("<img>").attr(
+// "src",
+// "https://logo.clearbit.com/" + urlFormat(schoolURL)
+// )
+// );
+//newSchool.append(newRowBtn);```
+````

@@ -20,6 +20,7 @@ $(document).ready(function () {
   // school name has autocomplete -- allows user to enter keywords to get a list of school with those words
   // may be able to use this to autocomplete search field and then search for specific school
   function getCollegeInfo() {
+    // gets the school searched to pass to the API
     var school = userSchool.val();
     console.log("School Searched: " + school);
 
@@ -39,73 +40,63 @@ $(document).ready(function () {
       method: "GET",
     }).then(function (response) {
       //console.log("2");
-      console.log(response);
+      //console.log(response);
 
       // loops through results to get the exact school being searched for
       for (var i = 0; i < response.results.length; i++) {
-        console.log(response.results[i]["school.name"]);
+        //console.log(response.results[i]["school.name"]);
         schoolName = response.results[i]["school.name"];
         schoolCity = response.results[i]["school.city"];
         schoolState = response.results[i]["school.state"];
         annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
         schoolURL = response.results[i]["school.school_url"];
 
-        // creates a new button with the name of the school, the city and state, and the url
-        var newRowBtn = $("<button>").addClass(
-          "list-group-item list-group-item-action col-md-12"
-        );
-
-        // sets the logo for the university on the button
-        var collegeLogo = $("<img>").attr(
-          "src",
-          "https://logo.clearbit.com/" + urlFormat(schoolURL)
-        );
-
-        // sets default image in case clearbit is not able to pull university logo
-        collegeLogo.attr(
-          "onerror",
-          "this.onerror=null;this.src='./assets/photos/generic-uni-logo.png'"
-        );
-
-        //collegeLogo.attr("style", "float: left");
-
-        collegeLogo.addClass("float-left pr-3");
-        newRowBtn.append(collegeLogo);
-
-        newRowBtn.append('<h3 id="school">' + schoolName + "</h3>");
-
-        newRowBtn.append(
-          '<h5 id="city">' +
-            "City: " +
-            schoolCity +
-            ", " +
-            schoolState +
-            "</h5>"
-        );
-
-        newRowBtn.append(
-          "Website: " +
-            '<a href="' +
-            urlFormat(schoolURL) +
-            '" target="_blank">' +
-            urlFormat(schoolURL) +
-            "</a>"
-        );
-
-        // clearbit api to add university logos
-        // newSchool.append(
-        //   $("<img>").attr(
-        //     "src",
-        //     "https://logo.clearbit.com/" + urlFormat(schoolURL)
-        //   )
-        // );
-        //newSchool.append(newRowBtn);
-        $("#uni-buttons").append(newRowBtn);
+        // calls populate college list function
+        populateCollegeList(schoolName, schoolCity, schoolState, schoolURL);
       }
     });
   }
 
-  function populateCollegeInfo() {}
+  // creates the buttons for each college from the API call
+  function populateCollegeList(name, city, state, url) {
+    // creates a new button with the name of the school, the city and state, and the url
+    var newRowBtn = $("<button>").addClass(
+      "list-group-item list-group-item-action col-md-12"
+    );
+
+    // sets the logo for the university on the button
+    var collegeLogo = $("<img>").attr(
+      "src",
+      "https://logo.clearbit.com/" + urlFormat(url)
+    );
+
+    // sets default image in case clearbit is not able to pull university logo
+    collegeLogo.attr(
+      "onerror",
+      "this.onerror=null;this.src='./assets/photos/generic-uni-logo.png'"
+    );
+
+    // sets the styling the logo
+    collegeLogo.addClass("float-left pr-3");
+    newRowBtn.append(collegeLogo);
+
+    newRowBtn.append('<h3 id="school">' + name + "</h3>");
+
+    newRowBtn.append(
+      '<h5 id="city">' + "City: " + city + ", " + state + "</h5>"
+    );
+
+    newRowBtn.append(
+      "Website: " +
+        '<a href="' +
+        urlFormat(url) +
+        '" target="_blank">' +
+        urlFormat(url) +
+        "</a>"
+    );
+
+    $("#uni-buttons").append(newRowBtn);
+  }
   function getCollegesByCity() {
     // variable to search API by city
     var city = userCity.value;
@@ -245,6 +236,7 @@ $(document).ready(function () {
     getCollegesByCity();
   });
 
+  // listens for the university search button to populate the university names
   $("#submit-school").on("click", function (event) {
     event.preventDefault();
     $("#home-page").addClass("d-none");
