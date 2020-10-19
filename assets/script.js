@@ -4,6 +4,10 @@ $(document).ready(function () {
   var userCity = document.getElementById("city-search");
 
   var userSchool = $("#school-search");
+
+  var schoolInfoHeader = $(".card-header");
+
+  var schoolInfoDetails = $("#school-details");
   // JS VARIABLES
 
   var schoolName;
@@ -215,11 +219,38 @@ $(document).ready(function () {
   function schoolPage(response) {
     console.log("this is a test of schoolPage");
     console.log(response);
-    schoolName = response.results[0]["school.name"];
-    // $("#school-info")
-    //   .append("<h1>" + schoolName + "</h1>")
-    //   .attr("style", "background-color: white")
-    //   .addClass("text-center");
+    var schoolName = response.results[0]["school.name"];
+    var schoolURL = response.results[0]["school.school_url"];
+    var collegeLogo = $("<img>").attr(
+      "src",
+      "https://logo.clearbit.com/" + urlFormat(schoolURL)
+    );
+    schoolCity = response.results[0]["school.city"];
+    schoolState = response.results[0]["school.state"];
+
+    // sets default image in case clearbit is not able to pull university logo
+    collegeLogo.attr(
+      "onerror",
+      "this.onerror=null;this.src='./assets/photos/generic-uni-logo.png'"
+    );
+    // sets the styling the logo
+    collegeLogo.addClass("float-left pr-3");
+
+    // adding all school information to the container
+    // school logo and name in card header
+    schoolInfoHeader
+      .append("<h1>" + schoolName + "</h1>")
+      .addClass("text-center");
+    schoolInfoHeader.prepend(collegeLogo);
+
+    schoolInfoDetails.prepend(
+      "<h5 class='text-center pt-3'>" +
+        "City: " +
+        schoolCity +
+        ", " +
+        schoolState +
+        "</h5>"
+    );
   }
 
   function urlFormat(site) {
