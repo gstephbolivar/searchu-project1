@@ -42,8 +42,7 @@ $(document).ready(function () {
       method: "GET",
     }).then(function (response) {
       //console.log("2");
-      console.log("city"+JSON.stringify(response, null, 2));
-
+      console.log("city" + JSON.stringify(response, null, 2));
 
       //populateCollegeList(schoolName, schoolCity, schoolState, schoolURL);
 
@@ -101,16 +100,13 @@ $(document).ready(function () {
       $("#uni-buttons").append(newRowBtn);
     }
     // event listener to create school page
-    $("#uni-buttons").on("click", "button", function(event){
+    $("#uni-buttons").on("click", "button", function (event) {
       event.preventDefault();
       $("#uni-list").addClass("d-none");
       schoolPage($(this).attr("school-name"));
       $("#final-page").removeClass("d-none");
-
-    })
+    });
   }
-
-  
 
   function getCollegesByCity() {
     // variable to search API by city
@@ -130,7 +126,7 @@ $(document).ready(function () {
       method: "GET",
     }).then(function (response) {
       //console.log("1");
-      console.log("city"+JSON.stringify(response, null, 2));
+      console.log("city" + JSON.stringify(response, null, 2));
       // obtains a list of all school names
       for (var i = 0; i < response.results.length; i++) {
         schoolName = response.results[i]["school.name"];
@@ -138,30 +134,39 @@ $(document).ready(function () {
         annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
         schoolURL = response.results[i]["school.school_url"];
         completionRate = response.results[i]["latest.completion.consumer_rate"];
-        var newRow = $("<button>")
-          .addClass("list-group-item list-group-item-action col-md-12");
-          newRow.attr("school-name", schoolName);
-        // sets the logo for the university on the button
-      var collegeLogo = $("<img>").attr(
-        "src",
-        "https://logo.clearbit.com/" + urlFormat(schoolURL)
-      );
-
-      // sets default image in case clearbit is not able to pull university logo
-      collegeLogo.attr(
-        "onerror",
-        "this.onerror=null;this.src='./assets/photos/generic-uni-logo.png'"
-      );
-
-      // sets the styling the logo
-      collegeLogo.addClass("float-left pr-3");
-      newRow.append(collegeLogo);
-
-        newRow.append('<h3 id="school">' + schoolName + '</h3>');
-        newRow.append(
-          '<h5 id="avg-cost">' + "Annual Tuition: " + formatTuition(annualCost) + "</h5>"
+        var newRow = $("<button>").addClass(
+          "list-group-item list-group-item-action col-md-12"
         );
-        newRow.append('<h5 id="comp-rate">'+"Completion Rate: "+formatCompRate(completionRate)+'</h5>');
+        newRow.attr("school-name", schoolName);
+        // sets the logo for the university on the button
+        var collegeLogo = $("<img>").attr(
+          "src",
+          "https://logo.clearbit.com/" + urlFormat(schoolURL)
+        );
+
+        // sets default image in case clearbit is not able to pull university logo
+        collegeLogo.attr(
+          "onerror",
+          "this.onerror=null;this.src='./assets/photos/generic-uni-logo.png'"
+        );
+
+        // sets the styling the logo
+        collegeLogo.addClass("float-left pr-3");
+        newRow.append(collegeLogo);
+
+        newRow.append('<h3 id="school">' + schoolName + "</h3>");
+        newRow.append(
+          '<h5 id="avg-cost">' +
+            "Annual Tuition: " +
+            formatTuition(annualCost) +
+            "</h5>"
+        );
+        newRow.append(
+          '<h5 id="comp-rate">' +
+            "Completion Rate: " +
+            formatCompRate(completionRate) +
+            "</h5>"
+        );
         newRow.append(
           '<a href="' +
             urlFormat(schoolURL) +
@@ -184,50 +189,22 @@ $(document).ready(function () {
         // console.log("Completion Rate: " + completionRate);
         // console.log("--------");
       }
-      var widget = $("<a>");
-      widget.addClass("teleport-widget-link");
-      widget.attr("href", "https://teleport.org/cities/atlanta/");
-      widget.text("Life quality score - Atlanta");
-      console.log("widget", widget);
-      $("#widget").append(widget);
-
-      var widgetQuality = $("<script>");
-      widgetQuality.addClass("async");
-      widgetQuality.attr("type", "text/javascript");
-      widgetQuality.addClass("teleport-widget-script");
-      widgetQuality.attr(
-        "data-url",
-        "https://teleport.org/cities/atlanta/widget/scores/?currency=USD&citySwitcher=false"
-      );
-      widgetQuality.attr("data-max-width", "770");
-      widgetQuality.attr("data-height", "232");
-      widgetQuality.attr(
-        "src",
-        "https://teleport.org/assets/firefly/widget-snippet.min.js"
-      );
-      $("<body>").append(widgetQuality);
-
-      // var widget = $("<a>")
-      //   .addClass("teleport-widget-link")
-      //   .attr("href=https://teleport.org/cities/atlanta/")
-      //   .text("Life quality score - Atlanta");
-      // console.log("widget",widget);
-      // $("#widget").append(widget);
     });
-    $("#chosenbutton").on("click", "button", function(event){
+    $("#chosenbutton").on("click", "button", function (event) {
       event.preventDefault();
       $("#school-list").addClass("d-none");
       schoolPage($(this).attr("school-name"));
       $("#final-page").removeClass("d-none");
-
-    })
+    });
   }
 
   function schoolPage(school) {
     console.log(school);
-    $("#school-info").append('<h1>'+school+'</h1>').attr("style", "background-color: white");
+    $("#school-info")
+      .append("<h1>" + school + "</h1>")
+      .attr("style", "background-color: white");
   }
-  
+
   function urlFormat(site) {
     if (site.substring(0, 4) === "http") {
       return site;
@@ -237,22 +214,20 @@ $(document).ready(function () {
   }
 
   function formatTuition(num) {
-    if (num === null){
-      return "N/A"
+    if (num === null) {
+      return "N/A";
     } else {
-      return "$"+num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-    }
-    
-  } 
-
-  function formatCompRate(rate) {
-    if (rate === null){
-      return "N/A"
-    } else {
-      return Math.ceil(rate * 100)+"%";
+      return "$" + num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     }
   }
- 
+
+  function formatCompRate(rate) {
+    if (rate === null) {
+      return "N/A";
+    } else {
+      return Math.ceil(rate * 100) + "%";
+    }
+  }
 
   // Gets the city or cities if more than one with the same name
   function getQualityOfLife() {
@@ -279,7 +254,6 @@ $(document).ready(function () {
 
   // FUNCTION CALLS
 
-  
   console.log("colleges");
 
   getQualityOfLife();
