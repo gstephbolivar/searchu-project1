@@ -118,3 +118,17 @@ body {
   border-radius: 15px;
   padding: 20px;
 }
+#school-info {
+  font-family: "Marcellus", serif;
+  font-family: "Old Standard TT", serif;
+  font-family: "Pontano Sans", sans-serif;
+  font-family: "Tenor Sans", sans-serif;
+  background: white;
+  opacity: 0.8;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  padding-left: 1.5%;
+  padding-right: 1%;
+  border-radius: 15px;
+  margin-top: 3%;
+}
