@@ -196,6 +196,7 @@ $(document).ready(function () {
       schoolPage($(this).attr("school-name"));
       $("#final-page").removeClass("d-none");
     });
+    getCity(city);
   }
 
   function schoolPage(school) {
@@ -203,6 +204,7 @@ $(document).ready(function () {
     $("#school-info")
       .append("<h1>" + school + "</h1>")
       .attr("style", "background-color: white");
+      // getCity("atlanta");
   }
 
   function urlFormat(site) {
@@ -250,10 +252,47 @@ $(document).ready(function () {
         //console.log("City: " + cityName);
       }
     });
+
+    // var getCity = $("#widget-search");
+    // console.log("Here:" + JSON.stringify(window.getCity));
   }
+  function getCity(city) {
+    city = city.toLowerCase();
+    var teleport = `
+    <a
+    class="teleport-widget-link"
+    href="https://teleport.org/cities/${city}/"
+    ></a
+  >
+  <script
+    async
+    class="teleport-widget-script"
+    id="widget-search"
+    data-url="https://teleport.org/cities/${city}/widget/scores/?currency=USD&citySwitcher=false"
+    data-max-width="770"
+    data-height="977"
+    src="https://teleport.org/assets/firefly/widget-snippet.min.js"
+  ></script>
+    `
+    $("#final-widget").empty();
+    $("#final-widget").append(teleport);
 
+    var widgetCity = "miami";
+    var queryURLWidget =
+      "https://teleport.org/cities/" +
+      widgetCity +
+      "/widget/scores/?currency=USD&citySwitcher=false";
+
+    $.ajax({
+      url: queryURLWidget,
+      methond: "GET",
+    }).then(function (response) {
+      console.log(response);
+      console.log(queryURLWidget);
+    });
+  }
   // FUNCTION CALLS
-
+  // getCity();
   console.log("colleges");
 
   getQualityOfLife();
