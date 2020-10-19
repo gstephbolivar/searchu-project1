@@ -127,10 +127,6 @@ $(document).ready(function () {
     }
   }
 
-  function displayCollegeDetails(response) {
-    console.log(response);
-  }
-
   function getCollegesByCity() {
     // variable to search API by city
     var city = userCity.value;
@@ -219,38 +215,128 @@ $(document).ready(function () {
   function schoolPage(response) {
     console.log("this is a test of schoolPage");
     console.log(response);
-    var schoolName = response.results[0]["school.name"];
-    var schoolURL = response.results[0]["school.school_url"];
-    var collegeLogo = $("<img>").attr(
+
+    // school name
+    schoolName = response.results[0]["school.name"];
+    // school url
+    schoolURL = response.results[0]["school.school_url"];
+
+    // school logo
+    collegeLogo = $("<img>").attr(
       "src",
       "https://logo.clearbit.com/" + urlFormat(schoolURL)
     );
+
+    // school city
     schoolCity = response.results[0]["school.city"];
+    // school state
     schoolState = response.results[0]["school.state"];
 
-    // sets default image in case clearbit is not able to pull university logo
+    // admission rate
+    admissionsRate =
+      response.results[0]["latest.admissions.admission_rate.overall"];
+
+    // completion rate
+    completionRate = response.results[0]["latest.completion.consumer_rate"];
+
+    // SAT score
+    var avgSATScore =
+      response.results[0]["latest.admissions.sat_scores.average.overall"];
+
+    // average overall costs
+    annualCost = response.results[0]["latest.cost.avg_net_price.overall"];
+    // in-state tuition
+    var inStateTuition = response.results[0]["latest.cost.tuition.in_state"];
+    // out-of-state tuition
+    var outStateTuition =
+      response.results[0]["latest.cost.tuition.out_of_state"];
+    // median debt
+    var debt = response.results[0]["latest.aid.median.debt.completers.overall"];
+    // median earnings
+    var earnings =
+      response.results[0]["latest.earnings.6_yrs_after_entry.median"];
+    // school logo and name in card header
+
     collegeLogo.attr(
       "onerror",
       "this.onerror=null;this.src='./assets/photos/generic-uni-logo.png'"
     );
-    // sets the styling the logo
+
     collegeLogo.addClass("float-left pr-3");
+    schoolInfoHeader.append(collegeLogo);
 
-    // adding all school information to the container
-    // school logo and name in card header
-    schoolInfoHeader
-      .append("<h1>" + schoolName + "</h1>")
-      .addClass("text-center");
-    schoolInfoHeader.prepend(collegeLogo);
+    schoolInfoHeader.append("<h1 class='text-center'>" + schoolName + "</h1>");
 
-    schoolInfoDetails.prepend(
-      "<h5 class='text-center pt-3'>" +
+    // adding all school detail information to the detail container
+
+    schoolInfoDetails.append(
+      "<h4 class='text-center'>" +
         "City: " +
         schoolCity +
         ", " +
         schoolState +
-        "</h5>"
+        "</h4>"
     );
+
+    schoolInfoDetails.append(
+      "Website: " +
+        "<a href='" +
+        urlFormat(schoolURL) +
+        "'>" +
+        urlFormat(schoolURL) +
+        "</a>"
+    );
+
+    // admissions information
+
+    schoolInfoDetails.append(
+      "<h5 class='pt-3'>Admissions and Completion Information</h5>"
+    );
+    // admission rate
+
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>Admissions Rate: </b>",
+      formatCompRate(admissionsRate)
+    );
+
+    // average SAT scores for admission
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>Average SAT Score Admitted: </b>",
+      avgSATScore
+    );
+
+    // completion rate
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>Completion Rate: </b>",
+      formatCompRate(completionRate)
+    );
+
+    // Cost Information Details
+
+    schoolInfoDetails.append("<h5 class='pt-3'>Cost Details Information</h5>");
+
+    // In-state Tuition costs
+
+    // out-of-state tuition costs
+
+    // average tuition costs
+
+    // earnings details
+    schoolInfoDetails.append("<h5 class='pt-3'>Average Earnings Details</h5>");
+
+    // median earnings after graduation
+
+    // median debt after graduation
+  }
+
+  function createDetailsListItem(container, html, apiData) {
+    var listGroup = $("<ul>").addClass("list-group");
+    var listItem = $("<li>").addClass("list-group-item");
+
+    container.append(listGroup.append(listItem.html(html + apiData)));
   }
 
   function urlFormat(site) {
