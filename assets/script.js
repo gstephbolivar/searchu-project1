@@ -251,12 +251,17 @@ $(document).ready(function () {
     var outStateTuition =
       response.results[0]["latest.cost.tuition.out_of_state"];
     // median debt
-    var debt = response.results[0]["latest.aid.median.debt.completers.overall"];
+    var debt = response.results[0]["latest.aid.median_debt.completers.overall"];
+
+    console.log(debt);
     // median earnings
     var earnings =
       response.results[0]["latest.earnings.6_yrs_after_entry.median"];
-    // school logo and name in card header
 
+    // undergraduate student size
+    var studentSize = response.results[0]["latest.student.size"];
+
+    // school logo and name in card header
     collegeLogo.attr(
       "onerror",
       "this.onerror=null;this.src='./assets/photos/generic-uni-logo.png'"
@@ -288,26 +293,32 @@ $(document).ready(function () {
     );
 
     // admissions information
-
     schoolInfoDetails.append(
-      "<h5 class='pt-3'>Admissions and Completion Information</h5>"
+      "<h5 class='pt-3 text-info'>Admissions and Completion Information</h5>"
     );
-    // admission rate
 
+    // undergraduate student size - calls function to populate list items
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>Undergraduate Students: </b>",
+      studentSize
+    );
+
+    // admission rate - calls function to populate list items
     createDetailsListItem(
       schoolInfoDetails,
       "<b>Admissions Rate: </b>",
       formatCompRate(admissionsRate)
     );
 
-    // average SAT scores for admission
+    // average SAT scores for admission - calls function to populate list items
     createDetailsListItem(
       schoolInfoDetails,
       "<b>Average SAT Score Admitted: </b>",
       avgSATScore
     );
 
-    // completion rate
+    // completion rate - calls function to populate list items
     createDetailsListItem(
       schoolInfoDetails,
       "<b>Completion Rate: </b>",
@@ -315,23 +326,51 @@ $(document).ready(function () {
     );
 
     // Cost Information Details
+    schoolInfoDetails.append(
+      "<h5 class='pt-3 text-info'>Cost Details Information</h5>"
+    );
 
-    schoolInfoDetails.append("<h5 class='pt-3'>Cost Details Information</h5>");
+    // average tuition costs - calls function to populate list items
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>Average Annual Cost: </b>",
+      formatTuition(annualCost)
+    );
 
-    // In-state Tuition costs
+    // In-state Tuition costs - calls function to populate list items
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>In-State Tuition: </b>",
+      formatTuition(inStateTuition)
+    );
 
-    // out-of-state tuition costs
-
-    // average tuition costs
+    // out-of-state tuition costs - calls function to populate list items
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>Out-of-State Tuition: </b>",
+      formatTuition(outStateTuition)
+    );
 
     // earnings details
-    schoolInfoDetails.append("<h5 class='pt-3'>Average Earnings Details</h5>");
+    schoolInfoDetails.append(
+      "<h5 class='pt-3 text-info'>Average Earnings Details</h5>"
+    );
 
-    // median earnings after graduation
-
-    // median debt after graduation
+    // median earnings after graduation - calls function to populate list items
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>Median Earnings after Graduation: </b>",
+      formatTuition(earnings)
+    );
+    // median debt after graduation - calls function to populate list items
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>Median Debt after Graduation: </b>",
+      formatTuition(debt)
+    );
   }
 
+  // creates the list item details for the selected school
   function createDetailsListItem(container, html, apiData) {
     var listGroup = $("<ul>").addClass("list-group");
     var listItem = $("<li>").addClass("list-group-item");
