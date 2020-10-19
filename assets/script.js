@@ -34,8 +34,23 @@ $(document).ready(function () {
 
     // use latest. to get the most recent information
 
+    // gets school.name
+    // school.city
+    // school.state
+    // avg_net_price.overall tuition cost
+    // overall admissions rate (admissions.admission_rate.overall)
+    // completion rate (completion.consumer_rate)
+    // school url (school.school_url)
+    // average SAT score (latest.admissions.sat_scores.average.overall)
+    // median debt (latest.aid.median.debt.completers.overall)
+    // in state tuition (latest.cost.tuition.in_state)
+    // out of state tuition (latest.cost.tuition.out_of_state)
+    // earnings after graduation (latest.earnings.6_yrs_after_entry.median)
+    // median household income (latest.student.demographics.median_hh_income)
+    // undergraduate student size  (latest.student.size)
+
     var url =
-      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,school.city,school.state,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url&school.name=" +
+      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,school.city,school.state,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url,latest.student.demographics.median_hh_income,latest.aid.median_debt.completers.overall,latest.earnings.6_yrs_after_entry.median,latest.admissions.sat_scores.average.overall,latest.student.size,latest.cost.tuition.in_state,latest.cost.tuition.out_of_state&school.name=" +
       searchSchool +
       "&api_key=" +
       apiKey;
