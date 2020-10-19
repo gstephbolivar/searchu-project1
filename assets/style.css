@@ -132,3 +132,7 @@ body {
   border-radius: 15px;
   margin-top: 3%;
 }
+
+.divider {
+  border-bottom: 1px solid black;
+}
