@@ -135,7 +135,7 @@ $(document).ready(function () {
 
     // use latest. to get the most recent information
     var url =
-      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url&school.city=" +
+      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url,latest.student.demographics.median_hh_income,latest.aid.median_debt.completers.overall,latest.earnings.6_yrs_after_entry.median,latest.admissions.sat_scores.average.overall,latest.student.size,latest.cost.tuition.in_state,latest.cost.tuition.out_of_state&school.city=" +
       city +
       "&api_key=" +
       apiKey;
@@ -299,7 +299,8 @@ $(document).ready(function () {
   $("#chosenbutton").on("click", "button", function (event) {
     event.preventDefault();
     $("#school-list").addClass("d-none");
-    schoolPage($(this).attr("school-name"));
+    finalSchool = true;
+    getCollegeInfo($(this).attr("school-name"));
     $("#final-page").removeClass("d-none");
   });
 
