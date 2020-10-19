@@ -14,6 +14,9 @@ $(document).ready(function () {
   var completionRate;
   var schoolURL;
 
+  // boolean for determining information loaded when calling getCollegeInfo()
+  var finalSchool;
+
   // FUNCTION DEFINITIONS
 
   // gets college information by name of the school
@@ -21,10 +24,10 @@ $(document).ready(function () {
   // may be able to use this to autocomplete search field and then search for specific school
 
   // I want to use this function to just be the API call and maybe pass in parameters that will determine what function is called within this to a) populate the list of universities or b) populate the information for the selected school
-  function getCollegeInfo() {
+  function getCollegeInfo(searchSchool) {
     // gets the school searched to pass to the API
-    var school = userSchool.val();
-    console.log("School Searched: " + school);
+
+    console.log("School Searched: " + searchSchool);
 
     // api key
     var apiKey = "BZXyW8EkmJtygGmoPPNTT8iIeiTbeshMqgalfuXm";
@@ -33,7 +36,7 @@ $(document).ready(function () {
 
     var url =
       "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,school.city,school.state,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url&school.name=" +
-      school +
+      searchSchool +
       "&api_key=" +
       apiKey;
 
@@ -42,12 +45,16 @@ $(document).ready(function () {
       method: "GET",
     }).then(function (response) {
       //console.log("2");
-      console.log("city" + JSON.stringify(response, null, 2));
+      //console.log("city" + JSON.stringify(response, null, 2));
 
       //populateCollegeList(schoolName, schoolCity, schoolState, schoolURL);
 
       // calls populate college list function passing the object from the API call
-      populateCollegeList(response);
+      if (finalSchool === false) {
+        populateCollegeList(response);
+      } else {
+        schoolPage(response);
+      }
     });
   }
 
@@ -99,13 +106,10 @@ $(document).ready(function () {
 
       $("#uni-buttons").append(newRowBtn);
     }
-    // event listener to create school page
-    $("#uni-buttons").on("click", "button", function (event) {
-      event.preventDefault();
-      $("#uni-list").addClass("d-none");
-      schoolPage($(this).attr("school-name"));
-      $("#final-page").removeClass("d-none");
-    });
+  }
+
+  function displayCollegeDetails(response) {
+    console.log(response);
   }
 
   function getCollegesByCity() {
@@ -190,19 +194,17 @@ $(document).ready(function () {
         // console.log("--------");
       }
     });
-    $("#chosenbutton").on("click", "button", function (event) {
-      event.preventDefault();
-      $("#school-list").addClass("d-none");
-      schoolPage($(this).attr("school-name"));
-      $("#final-page").removeClass("d-none");
-    });
   }
 
-  function schoolPage(school) {
-    console.log(school);
-    $("#school-info")
-      .append("<h1>" + school + "</h1>")
-      .attr("style", "background-color: white");
+  // function takes in the object from the API call in order to populate school details
+  function schoolPage(response) {
+    console.log("this is a test of schoolPage");
+    console.log(response);
+    schoolName = response.results[0]["school.name"];
+    // $("#school-info")
+    //   .append("<h1>" + schoolName + "</h1>")
+    //   .attr("style", "background-color: white")
+    //   .addClass("text-center");
   }
 
   function urlFormat(site) {
@@ -272,9 +274,27 @@ $(document).ready(function () {
     event.preventDefault();
     $("#home-page").addClass("d-none");
     $("#uni-list").removeClass("d-none");
-    getCollegeInfo();
+    finalSchool = false;
+    var school = userSchool.val();
+    getCollegeInfo(school);
   });
 
   // need to create event listener to check for when a university button is pressed --> this will call function to display university information
+
+  $("#chosenbutton").on("click", "button", function (event) {
+    event.preventDefault();
+    $("#school-list").addClass("d-none");
+    schoolPage($(this).attr("school-name"));
+    $("#final-page").removeClass("d-none");
+  });
+
+  // event listener to create school page
+  $("#uni-buttons").on("click", "button", function (event) {
+    event.preventDefault();
+    $("#uni-list").addClass("d-none");
+    finalSchool = true;
+    getCollegeInfo($(this).attr("school-name"));
+    $("#final-page").removeClass("d-none");
+  });
   // could possible use the same functions if parameters are passed in properly to fork which function are called after the API information is received
 });
