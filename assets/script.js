@@ -4,6 +4,10 @@ $(document).ready(function () {
   var userCity = document.getElementById("city-search");
 
   var userSchool = $("#school-search");
+
+  var schoolInfoHeader = $(".card-header");
+
+  var schoolInfoDetails = $("#school-details");
   // JS VARIABLES
 
   var schoolName;
@@ -14,6 +18,9 @@ $(document).ready(function () {
   var completionRate;
   var schoolURL;
 
+  // boolean for determining information loaded when calling getCollegeInfo()
+  var finalSchool;
+
   // FUNCTION DEFINITIONS
 
   // gets college information by name of the school
@@ -21,19 +28,34 @@ $(document).ready(function () {
   // may be able to use this to autocomplete search field and then search for specific school
 
   // I want to use this function to just be the API call and maybe pass in parameters that will determine what function is called within this to a) populate the list of universities or b) populate the information for the selected school
-  function getCollegeInfo() {
+  function getCollegeInfo(searchSchool) {
     // gets the school searched to pass to the API
-    var school = userSchool.val();
-    console.log("School Searched: " + school);
+
+    console.log("School Searched: " + searchSchool);
 
     // api key
     var apiKey = "BZXyW8EkmJtygGmoPPNTT8iIeiTbeshMqgalfuXm";
 
     // use latest. to get the most recent information
 
+    // gets school.name
+    // school.city
+    // school.state
+    // avg_net_price.overall tuition cost
+    // overall admissions rate (admissions.admission_rate.overall)
+    // completion rate (completion.consumer_rate)
+    // school url (school.school_url)
+    // average SAT score (latest.admissions.sat_scores.average.overall)
+    // median debt (latest.aid.median.debt.completers.overall)
+    // in state tuition (latest.cost.tuition.in_state)
+    // out of state tuition (latest.cost.tuition.out_of_state)
+    // earnings after graduation (latest.earnings.6_yrs_after_entry.median)
+    // median household income (latest.student.demographics.median_hh_income)
+    // undergraduate student size  (latest.student.size)
+
     var url =
-      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,school.city,school.state,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url&school.name=" +
-      school +
+      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,school.city,school.state,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url,latest.student.demographics.median_hh_income,latest.aid.median_debt.completers.overall,latest.earnings.6_yrs_after_entry.median,latest.admissions.sat_scores.average.overall,latest.student.size,latest.cost.tuition.in_state,latest.cost.tuition.out_of_state&school.name=" +
+      searchSchool +
       "&api_key=" +
       apiKey;
 
@@ -42,12 +64,16 @@ $(document).ready(function () {
       method: "GET",
     }).then(function (response) {
       //console.log("2");
-      console.log("city" + JSON.stringify(response, null, 2));
+      //console.log("city" + JSON.stringify(response, null, 2));
 
       //populateCollegeList(schoolName, schoolCity, schoolState, schoolURL);
 
       // calls populate college list function passing the object from the API call
-      populateCollegeList(response);
+      if (finalSchool === false) {
+        populateCollegeList(response);
+      } else {
+        schoolPage(response);
+      }
     });
   }
 
@@ -99,13 +125,6 @@ $(document).ready(function () {
 
       $("#uni-buttons").append(newRowBtn);
     }
-    // event listener to create school page
-    $("#uni-buttons").on("click", "button", function (event) {
-      event.preventDefault();
-      $("#uni-list").addClass("d-none");
-      schoolPage($(this).attr("school-name"));
-      $("#final-page").removeClass("d-none");
-    });
   }
 
   function getCollegesByCity() {
@@ -116,7 +135,7 @@ $(document).ready(function () {
 
     // use latest. to get the most recent information
     var url =
-      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url&school.city=" +
+      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url,latest.student.demographics.median_hh_income,latest.aid.median_debt.completers.overall,latest.earnings.6_yrs_after_entry.median,latest.admissions.sat_scores.average.overall,latest.student.size,latest.cost.tuition.in_state,latest.cost.tuition.out_of_state&school.city=" +
       city +
       "&api_key=" +
       apiKey;
@@ -190,21 +209,170 @@ $(document).ready(function () {
         // console.log("--------");
       }
     });
-    $("#chosenbutton").on("click", "button", function (event) {
-      event.preventDefault();
-      $("#school-list").addClass("d-none");
-      schoolPage($(this).attr("school-name"));
-      $("#final-page").removeClass("d-none");
-    });
+
     getCity(city);
   }
 
-  function schoolPage(school) {
-    console.log(school);
-    $("#school-info")
-      .append("<h1>" + school + "</h1>")
-      .attr("style", "background-color: white");
-      // getCity("atlanta");
+  // function takes in the object from the API call in order to populate school details
+  function schoolPage(response) {
+    console.log("this is a test of schoolPage");
+    console.log(response);
+
+    // school name
+    schoolName = response.results[0]["school.name"];
+    // school url
+    schoolURL = response.results[0]["school.school_url"];
+
+    // school logo
+    collegeLogo = $("<img>").attr(
+      "src",
+      "https://logo.clearbit.com/" + urlFormat(schoolURL)
+    );
+
+    // school city
+    schoolCity = response.results[0]["school.city"];
+    // school state
+    schoolState = response.results[0]["school.state"];
+
+    // admission rate
+    admissionsRate =
+      response.results[0]["latest.admissions.admission_rate.overall"];
+
+    // completion rate
+    completionRate = response.results[0]["latest.completion.consumer_rate"];
+
+    // SAT score
+    var avgSATScore =
+      response.results[0]["latest.admissions.sat_scores.average.overall"];
+
+    // average overall costs
+    annualCost = response.results[0]["latest.cost.avg_net_price.overall"];
+    // in-state tuition
+    var inStateTuition = response.results[0]["latest.cost.tuition.in_state"];
+    // out-of-state tuition
+    var outStateTuition =
+      response.results[0]["latest.cost.tuition.out_of_state"];
+    // median debt
+    var debt = response.results[0]["latest.aid.median_debt.completers.overall"];
+
+    console.log(debt);
+    // median earnings
+    var earnings =
+      response.results[0]["latest.earnings.6_yrs_after_entry.median"];
+
+    // undergraduate student size
+    var studentSize = response.results[0]["latest.student.size"];
+
+    // school logo and name in card header
+    collegeLogo.attr(
+      "onerror",
+      "this.onerror=null;this.src='./assets/photos/generic-uni-logo.png'"
+    );
+
+    collegeLogo.addClass("float-left pr-3");
+    schoolInfoHeader.append(collegeLogo);
+
+    schoolInfoHeader.append("<h1 class='text-center'>" + schoolName + "</h1>");
+
+    // adding all school detail information to the detail container
+
+    schoolInfoDetails.append(
+      "<h4 class='text-center'>" + schoolCity + ", " + schoolState + "</h4>"
+    );
+
+    schoolInfoDetails.append(
+      "Website: " +
+        "<a href='" +
+        urlFormat(schoolURL) +
+        "'>" +
+        urlFormat(schoolURL) +
+        "</a>"
+    );
+
+    // admissions information
+    schoolInfoDetails.append(
+      "<h5 class='pt-3 text-info'>Admissions and Completion Information</h5>"
+    );
+
+    // undergraduate student size - calls function to populate list items
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>Undergraduate Students: </b>",
+      studentSize
+    );
+
+    // admission rate - calls function to populate list items
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>Admissions Rate: </b>",
+      formatCompRate(admissionsRate)
+    );
+
+    // average SAT scores for admission - calls function to populate list items
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>Average SAT Score Admitted: </b>",
+      avgSATScore
+    );
+
+    // completion rate - calls function to populate list items
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>Completion Rate: </b>",
+      formatCompRate(completionRate)
+    );
+
+    // Cost Information Details
+    schoolInfoDetails.append(
+      "<h5 class='pt-3 text-info'>Cost Details Information</h5>"
+    );
+
+    // average tuition costs - calls function to populate list items
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>Average Annual Cost: </b>",
+      formatTuition(annualCost)
+    );
+
+    // In-state Tuition costs - calls function to populate list items
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>In-State Tuition: </b>",
+      formatTuition(inStateTuition)
+    );
+
+    // out-of-state tuition costs - calls function to populate list items
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>Out-of-State Tuition: </b>",
+      formatTuition(outStateTuition)
+    );
+
+    // earnings details
+    schoolInfoDetails.append(
+      "<h5 class='pt-3 text-info'>Average Earnings Details</h5>"
+    );
+
+    // median earnings after graduation - calls function to populate list items
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>Median Earnings after Graduation: </b>",
+      formatTuition(earnings)
+    );
+    // median debt after graduation - calls function to populate list items
+    createDetailsListItem(
+      schoolInfoDetails,
+      "<b>Median Debt after Graduation: </b>",
+      formatTuition(debt)
+    );
+  }
+
+  // creates the list item details for the selected school
+  function createDetailsListItem(container, html, apiData) {
+    var listGroup = $("<ul>").addClass("list-group");
+    var listItem = $("<li>").addClass("list-group-item");
+
+    container.append(listGroup.append(listItem.html(html + apiData)));
   }
 
   function urlFormat(site) {
@@ -311,9 +479,28 @@ $(document).ready(function () {
     event.preventDefault();
     $("#home-page").addClass("d-none");
     $("#uni-list").removeClass("d-none");
-    getCollegeInfo();
+    finalSchool = false;
+    var school = userSchool.val();
+    getCollegeInfo(school);
   });
 
   // need to create event listener to check for when a university button is pressed --> this will call function to display university information
+
+  $("#chosenbutton").on("click", "button", function (event) {
+    event.preventDefault();
+    $("#school-list").addClass("d-none");
+    finalSchool = true;
+    getCollegeInfo($(this).attr("school-name"));
+    $("#final-page").removeClass("d-none");
+  });
+
+  // event listener to create school page
+  $("#uni-buttons").on("click", "button", function (event) {
+    event.preventDefault();
+    $("#uni-list").addClass("d-none");
+    finalSchool = true;
+    getCollegeInfo($(this).attr("school-name"));
+    $("#final-page").removeClass("d-none");
+  });
   // could possible use the same functions if parameters are passed in properly to fork which function are called after the API information is received
 });
