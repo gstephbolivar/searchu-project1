@@ -80,3 +80,33 @@ body {
       0 0 60px black, 0 0 70px black, 0 0 80px black;
   }
 }
+
+#aboutUsText {
+  font-family: "Marcellus", serif;
+  font-family: "Old Standard TT", serif;
+  font-family: "Pontano Sans", sans-serif;
+  font-family: "Tenor Sans", sans-serif;
+  font-size: 15px;
+  /* margin-left: 25%;
+  margin-right: 25%; */
+  color: black;
+  /* background: white;
+  opacity: 0.7;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  padding-left: 1.5%;
+  padding-right: 1%; */
+}
+
+.containerText {
+  background: white;
+  opacity: 0.7;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  padding-left: 1.5%;
+  padding-right: 1%;
+  margin-left: 25%;
+  margin-right: 25%;
+  border-radius: 15px;
+  padding: 20px;
+}
