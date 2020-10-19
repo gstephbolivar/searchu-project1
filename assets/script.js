@@ -275,12 +275,7 @@ $(document).ready(function () {
     // adding all school detail information to the detail container
 
     schoolInfoDetails.append(
-      "<h4 class='text-center'>" +
-        "City: " +
-        schoolCity +
-        ", " +
-        schoolState +
-        "</h4>"
+      "<h4 class='text-center'>" + schoolCity + ", " + schoolState + "</h4>"
     );
 
     schoolInfoDetails.append(
