@@ -4,11 +4,15 @@ body {
   background-repeat: no-repeat;
   padding-bottom: 72px;
 }
+
+#hide-alert{
+  background-color: white;
+  color: black;
+}
 #search-U1 {
   font-family: "Cinzel Decorative", cursive;
   color: white;
   background: lightgray (0, 0, 0);
-  /* background: lightgray(0, 0, 0, 0.5);  */
   margin-top: 20%;
   font-size: 80px;
   margin-left: auto;
@@ -17,8 +21,7 @@ body {
 #search-U2 {
   font-family: "Abril Fatface", cursive;
   color: white;
-  background: lightgray(0, 0, 0); /* Fallback color */
-  /* background: lightgray(0, 0, 0, 1);  */
+  background: lightgray(0, 0, 0); 
   font-size: 150px;
   margin-top: 15%;
   margin-left: 1%;
@@ -96,15 +99,7 @@ body {
   font-family: "Pontano Sans", sans-serif;
   font-family: "Tenor Sans", sans-serif;
   font-size: 15px;
-  /* margin-left: 25%;
-  margin-right: 25%; */
   color: black;
-  /* background: white;
-  opacity: 0.7;
-  padding-top: 1%;
-  padding-bottom: 1%;
-  padding-left: 1.5%;
-  padding-right: 1%; */
 }
 
 .containerText {

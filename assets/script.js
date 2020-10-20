@@ -1,5 +1,4 @@
 $(document).ready(function () {
-  console.log("This works");
   // DOM VARIABLES
   var userCity = document.getElementById("city-search");
 
@@ -21,37 +20,18 @@ $(document).ready(function () {
   // boolean for determining information loaded when calling getCollegeInfo()
   var finalSchool;
 
+  var cityArray = [];
+
   // FUNCTION DEFINITIONS
 
   // gets college information by name of the school
   // school name has autocomplete -- allows user to enter keywords to get a list of school with those words
-  // may be able to use this to autocomplete search field and then search for specific school
 
-  // I want to use this function to just be the API call and maybe pass in parameters that will determine what function is called within this to a) populate the list of universities or b) populate the information for the selected school
   function getCollegeInfo(searchSchool) {
     // gets the school searched to pass to the API
 
-    //console.log("School Searched: " + searchSchool);
-
     // api key
     var apiKey = "BZXyW8EkmJtygGmoPPNTT8iIeiTbeshMqgalfuXm";
-
-    // use latest. to get the most recent information
-
-    // gets school.name
-    // school.city
-    // school.state
-    // avg_net_price.overall tuition cost
-    // overall admissions rate (admissions.admission_rate.overall)
-    // completion rate (completion.consumer_rate)
-    // school url (school.school_url)
-    // average SAT score (latest.admissions.sat_scores.average.overall)
-    // median debt (latest.aid.median.debt.completers.overall)
-    // in state tuition (latest.cost.tuition.in_state)
-    // out of state tuition (latest.cost.tuition.out_of_state)
-    // earnings after graduation (latest.earnings.6_yrs_after_entry.median)
-    // median household income (latest.student.demographics.median_hh_income)
-    // undergraduate student size  (latest.student.size)
 
     var url =
       "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,school.city,school.state,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url,latest.student.demographics.median_hh_income,latest.aid.median_debt.completers.overall,latest.earnings.6_yrs_after_entry.median,latest.admissions.sat_scores.average.overall,latest.student.size,latest.cost.tuition.in_state,latest.cost.tuition.out_of_state&school.name=" +
@@ -63,11 +43,6 @@ $(document).ready(function () {
       url: url,
       method: "GET",
     }).then(function (response) {
-      //console.log("2");
-      //console.log("city" + JSON.stringify(response, null, 2));
-
-      //populateCollegeList(schoolName, schoolCity, schoolState, schoolURL);
-
       // calls populate college list function passing the object from the API call
       if (finalSchool === false) {
         populateCollegeList(response);
@@ -92,6 +67,8 @@ $(document).ready(function () {
         "list-group-item list-group-item-action col-md-12"
       );
       newRow.attr("school-name", schoolName);
+      newRow.attr("school-city", schoolCity);
+
       // sets the logo for the university on the button
       var collegeLogo = $("<img>").attr(
         "src",
@@ -152,6 +129,7 @@ $(document).ready(function () {
       // console.log("Completion Rate: " + completionRate);
       // console.log("--------");
     }
+    //getCity(schoolCity);
   }
   function getCollegesByCity(city) {
     // api key
@@ -173,13 +151,13 @@ $(document).ready(function () {
       // obtains a list of all school names
       populateCollegeList(response);
     });
+
+    //getCity(city);
+    // console.log("HELLO", city);
   }
 
   // function takes in the object from the API call in order to populate school details
   function schoolPage(response) {
-    //console.log("this is a test of schoolPage");
-    //console.log(response);
-
     // school name
     schoolName = response.results[0]["school.name"];
     // school url
@@ -217,7 +195,6 @@ $(document).ready(function () {
     // median debt
     var debt = response.results[0]["latest.aid.median_debt.completers.overall"];
 
-    //console.log(debt);
     // median earnings
     var earnings =
       response.results[0]["latest.earnings.6_yrs_after_entry.median"];
@@ -363,15 +340,15 @@ $(document).ready(function () {
 
   // Gets the city or cities if more than one with the same name
   function getQualityOfLife() {
-    var city = "Atlanta";
+    var city = "";
     var queryURL = "https://api.teleport.org/api/cities/?search=" + city;
 
     $.ajax({
       url: queryURL,
       method: "GET",
     }).then(function (response) {
-      //console.log(response);
-      //console.log(queryURL);
+      console.log("Look at this", city);
+      console.log(queryURL);
       for (
         var i = 0;
         i < response._embedded["city:search-results"].length;
@@ -379,17 +356,56 @@ $(document).ready(function () {
       ) {
         var cityName =
           response._embedded["city:search-results"][i].matching_full_name;
-        //console.log("City: " + cityName);
       }
     });
+  }
+  function getCity(city) {
+    city = city.toLowerCase();
+    $.ajax({
+      url:
+        "https://cors-anywhere.herokuapp.com/https://developers.teleport.org/assets/urban_areas.json",
+      method: "GET",
+      //crossDomain: true,
+    }).then(function (response) {
+      //console.log(response);
+      var cityObj = Object.values(response);
+      //console.log(cityObj.length);
+      for (var i = 0; i < cityObj.length; i++) {
+        //console.log(cityObj[i]);
+        cityArray.push(cityObj[i]);
+      }
+      console.log("CITIES HERE", cityArray);
+    });
+    console.log("IT HERE", cityArray);
+    if (cityArray.includes(city)) {
+      $("#final-widget").addClass("d-none");
+      $("#hide-alert").removeClass("d-none");
+    }
+
+    var teleport = `
+    <a
+    class="teleport-widget-link"
+    href="https://teleport.org/cities/${city}/"
+    ></a
+  >
+  <script
+    async
+    class="teleport-widget-script"
+    id="widget-search"
+    data-url="https://teleport.org/cities/${city}/widget/scores/?currency=USD&citySwitcher=false"
+    data-max-width="770"
+    data-height="977"
+    src="https://teleport.org/assets/firefly/widget-snippet.min.js"
+  ></script>
+    `;
+
+    $("#final-widget").empty();
+    $("#final-widget").append(teleport);
   }
 
   // FUNCTION CALLS
 
-  //console.log("colleges");
-
-  getQualityOfLife();
-  // qWidget();
+  //getQualityOfLife();
 
   // EVENT LISTENERS
   $("#submit-city").on("click", function (event) {
@@ -411,23 +427,24 @@ $(document).ready(function () {
     getCollegeInfo(school);
   });
 
-  // need to create event listener to check for when a university button is pressed --> this will call function to display university information
+  // event listener to create school page
+  // $("#chosenbutton").on("click", "button", function (event) {
+  //   event.preventDefault();
+  //   $("#school-list").addClass("d-none");
+  //   finalSchool = true;
+  //   getCollegeInfo($(this).attr("school-name"));
+  //   $("#final-page").removeClass("d-none");
+  // });
 
+  // event listener to create school page
   $("#chosenbutton").on("click", "button", function (event) {
     event.preventDefault();
     $("#school-list").addClass("d-none");
     finalSchool = true;
     getCollegeInfo($(this).attr("school-name"));
+    getCity($(this).attr("school-city"));
     $("#final-page").removeClass("d-none");
   });
 
-  // event listener to create school page
-  $("#uni-buttons").on("click", "button", function (event) {
-    event.preventDefault();
-    $("#uni-list").addClass("d-none");
-    finalSchool = true;
-    getCollegeInfo($(this).attr("school-name"));
-    $("#final-page").removeClass("d-none");
-  });
   // could possible use the same functions if parameters are passed in properly to fork which function are called after the API information is received
 });
