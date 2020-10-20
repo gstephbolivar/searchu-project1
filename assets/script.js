@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  console.log("Should be working");
   // DOM VARIABLES
   var userCity = document.getElementById("city-search");
 
@@ -347,8 +348,6 @@ $(document).ready(function () {
       url: queryURL,
       method: "GET",
     }).then(function (response) {
-      console.log("Look at this", city);
-      console.log(queryURL);
       for (
         var i = 0;
         i < response._embedded["city:search-results"].length;
@@ -445,6 +444,4 @@ $(document).ready(function () {
     getCity($(this).attr("school-city"));
     $("#final-page").removeClass("d-none");
   });
-
-  // could possible use the same functions if parameters are passed in properly to fork which function are called after the API information is received
 });
