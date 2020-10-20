@@ -1,5 +1,4 @@
 $(document).ready(function () {
-  console.log("Should be working");
   // DOM VARIABLES
   var userCity = document.getElementById("city-search");
 
@@ -21,6 +20,7 @@ $(document).ready(function () {
   // boolean for determining information loaded when calling getCollegeInfo()
   var finalSchool;
 
+  // stores all city names from teleport API JSON file
   var cityArray = [];
 
   // FUNCTION DEFINITIONS
@@ -119,20 +119,7 @@ $(document).ready(function () {
       );
 
       $("#chosenbutton").append(newRow);
-      // createList(schoolName, annualCost, schoolURL);
-      // admissionsRate =
-      //   response.results[i]["latest.admissions.admission_rate.overall"];
-      // completionRate = response.results[i]["latest.completion.consumer_rate"];
-      // schoolURL = response.results[i]["school.school_url"];
-      // console.log("Name: " + schoolName);
-      // console.log("URL: " + schoolURL);
-      // console.log("City: " + schoolCity);
-      // console.log("Admission Rate: " + admissionsRate);
-      // console.log("Annual Cost: " + annualCost);
-      // console.log("Completion Rate: " + completionRate);
-      // console.log("--------");
     }
-    //getCity(schoolCity);
   }
   function getCollegesByCity(city) {
     // api key
@@ -149,14 +136,9 @@ $(document).ready(function () {
       url: url,
       method: "GET",
     }).then(function (response) {
-      //console.log("1");
-      //console.log("city" + JSON.stringify(response, null, 2));
       // obtains a list of all school names
       populateCollegeList(response);
     });
-
-    //getCity(city);
-    // console.log("HELLO", city);
   }
 
   // function takes in the object from the API call in order to populate school details
@@ -342,71 +324,48 @@ $(document).ready(function () {
   }
 
   // Gets the city or cities if more than one with the same name
-  function getQualityOfLife() {
-    var city = "";
-    var queryURL = "https://api.teleport.org/api/cities/?search=" + city;
 
-    $.ajax({
-      url: queryURL,
-      method: "GET",
-    }).then(function (response) {
-      for (
-        var i = 0;
-        i < response._embedded["city:search-results"].length;
-        i++
-      ) {
-        var cityName =
-          response._embedded["city:search-results"][i].matching_full_name;
-      }
-    });
-  }
   function getCity(city) {
     city = city.toLowerCase();
     $.ajax({
       url:
         "https://cors-anywhere.herokuapp.com/https://developers.teleport.org/assets/urban_areas.json",
       method: "GET",
-      //crossDomain: true,
     }).then(function (response) {
-      //console.log(response);
       var cityObj = Object.values(response);
-      //console.log(cityObj.length);
       for (var i = 0; i < cityObj.length; i++) {
-        //console.log(cityObj[i]);
         cityArray.push(cityObj[i]);
+      }
+      if (cityArray.includes(city)) {
+        var teleport = `
+      <a
+      class="teleport-widget-link"
+      href="https://teleport.org/cities/${city}/"
+      ></a
+    >
+    <script
+      async
+      class="teleport-widget-script"
+      id="widget-search"
+      data-url="https://teleport.org/cities/${city}/widget/scores/?currency=USD&citySwitcher=false"
+      data-max-width="770"
+      data-height="977"
+      src="https://teleport.org/assets/firefly/widget-snippet.min.js"
+    ></script>
+      `;
+
+        $("#final-widget").empty();
+        $("#final-widget").append(teleport);
+      } else {
+        $("#final-widget").addClass("d-none");
+        $("#hide-alert").removeClass("d-none");
       }
       console.log("CITIES HERE", cityArray);
     });
     console.log("IT HERE", cityArray);
-    if (cityArray.includes(city)) {
-      $("#final-widget").addClass("d-none");
-      $("#hide-alert").removeClass("d-none");
-    }
-
-    var teleport = `
-    <a
-    class="teleport-widget-link"
-    href="https://teleport.org/cities/${city}/"
-    ></a
-  >
-  <script
-    async
-    class="teleport-widget-script"
-    id="widget-search"
-    data-url="https://teleport.org/cities/${city}/widget/scores/?currency=USD&citySwitcher=false"
-    data-max-width="770"
-    data-height="977"
-    src="https://teleport.org/assets/firefly/widget-snippet.min.js"
-  ></script>
-    `;
-
-    $("#final-widget").empty();
-    $("#final-widget").append(teleport);
   }
 
   // FUNCTION CALLS
-
-  //getQualityOfLife();
 
   // EVENT LISTENERS
   $("#submit-city").on("click", function (event) {
@@ -427,15 +386,6 @@ $(document).ready(function () {
     var school = userSchool.val();
     getCollegeInfo(school);
   });
-
-  // event listener to create school page
-  // $("#chosenbutton").on("click", "button", function (event) {
-  //   event.preventDefault();
-  //   $("#school-list").addClass("d-none");
-  //   finalSchool = true;
-  //   getCollegeInfo($(this).attr("school-name"));
-  //   $("#final-page").removeClass("d-none");
-  // });
 
   // event listener to create school page
   $("#chosenbutton").on("click", "button", function (event) {
