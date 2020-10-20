@@ -82,7 +82,7 @@ $(document).ready(function () {
   function populateCollegeList(response) {
     for (var i = 0; i < response.results.length; i++) {
       schoolName = response.results[i]["school.name"];
-      // schoolCity = response.results[i]["school.city"];
+      schoolCity = response.results[i]["school.city"];
       annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
       schoolURL = response.results[i]["school.school_url"];
       completionRate = response.results[i]["latest.completion.consumer_rate"];
