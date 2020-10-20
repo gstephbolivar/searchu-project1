@@ -5,7 +5,7 @@ body {
   padding-bottom: 72px;
 }
 
-#hide-alert{
+#hide-alert {
   background-color: transparent;
   color: white;
   text-align: center;
@@ -23,7 +23,7 @@ body {
 #search-U2 {
   font-family: "Abril Fatface", cursive;
   color: white;
-  background: lightgray(0, 0, 0); 
+  background: lightgray(0, 0, 0);
   font-size: 150px;
   margin-top: 15%;
   margin-left: 1%;
@@ -55,11 +55,11 @@ body {
 }
 
 #submit-city:hover {
-  background-color: rgb(136, 72, 72);
+  background-color: rgb(176, 232, 241);
 }
 
 #submit-school:hover {
-  background-color: rgb(136, 72, 72);
+  background-color: rgb(176, 232, 241);
 }
 
 #submit-city {
