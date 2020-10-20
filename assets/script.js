@@ -86,10 +86,12 @@ $(document).ready(function () {
       collegeLogo.addClass("float-left pr-3 logo");
       newRow.append(collegeLogo);
 
-      newRow.append('<h3 id="school">' + schoolName + "</h3>");
+      newRow.append(
+        '<h3 id="school" class="font-weight-bold">' + schoolName + "</h3>"
+      );
 
       newRow.append(
-        '<h4 id="city" class="text-muted">' +
+        '<h4 id="city" class="text-info">' +
           schoolCity +
           ", " +
           schoolState +
@@ -109,7 +111,7 @@ $(document).ready(function () {
           "</h6>"
       );
       newRow.append(
-        '<a href="' +
+        'Website: <a href="' +
           urlFormat(schoolURL) +
           '" target="_blank">' +
           urlFormat(schoolURL) +
