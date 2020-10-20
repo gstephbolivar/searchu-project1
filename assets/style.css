@@ -2,6 +2,7 @@ body {
   background-image: url(./photos/library2.jpg);
   background-size: cover;
   background-repeat: no-repeat;
+  padding-bottom: 72px;
 }
 #search-U1 {
   font-family: "Cinzel Decorative", cursive;
@@ -165,4 +166,9 @@ body {
 
 #link {
   color: rgb(80, 35, 35);
+}
+
+#contactBox {
+  margin-left: auto;
+  margin-right: auto;
 }
