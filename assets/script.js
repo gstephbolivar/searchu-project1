@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  console.log("Should be working")
   // DOM VARIABLES
   var userCity = document.getElementById("city-search");
 
