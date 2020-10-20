@@ -137,3 +137,19 @@ body {
 .divider {
   border-bottom: 1px solid black;
 }
+
+#nameContactUs {
+  font-family: "Marcellus", serif;
+  font-family: "Old Standard TT", serif;
+  font-family: "Pontano Sans", sans-serif;
+  font-family: "Tenor Sans", sans-serif;
+  font-size: 30px;
+}
+
+#titleContactUs {
+  font-family: "Marcellus", serif;
+  font-family: "Old Standard TT", serif;
+  font-family: "Pontano Sans", sans-serif;
+  font-family: "Tenor Sans", sans-serif;
+  font-size: 20px;
+}
