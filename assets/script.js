@@ -83,6 +83,7 @@ $(document).ready(function () {
     for (var i = 0; i < response.results.length; i++) {
       schoolName = response.results[i]["school.name"];
       schoolCity = response.results[i]["school.city"];
+      schoolState = response.results[i]["school.state"];
       annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
       schoolURL = response.results[i]["school.school_url"];
       completionRate = response.results[i]["latest.completion.consumer_rate"];
@@ -110,16 +111,24 @@ $(document).ready(function () {
       newRow.append('<h3 id="school">' + schoolName + "</h3>");
 
       newRow.append(
-        '<h5 id="avg-cost">' +
+        '<h4 id="city" class="text-muted">' +
+          schoolCity +
+          ", " +
+          schoolState +
+          "</h4>"
+      );
+
+      newRow.append(
+        '<h6 id="avg-cost">' +
           "Annual Tuition: " +
           formatTuition(annualCost) +
-          "</h5>"
+          "</h6>"
       );
       newRow.append(
-        '<h5 id="comp-rate">' +
+        '<h6 id="comp-rate">' +
           "Completion Rate: " +
           formatCompRate(completionRate) +
-          "</h5>"
+          "</h6>"
       );
       newRow.append(
         '<a href="' +
@@ -150,7 +159,7 @@ $(document).ready(function () {
 
     // use latest. to get the most recent information
     var url =
-      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url,latest.student.demographics.median_hh_income,latest.aid.median_debt.completers.overall,latest.earnings.6_yrs_after_entry.median,latest.admissions.sat_scores.average.overall,latest.student.size,latest.cost.tuition.in_state,latest.cost.tuition.out_of_state&school.city=" +
+      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,school.city,school.state,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url,latest.student.demographics.median_hh_income,latest.aid.median_debt.completers.overall,latest.earnings.6_yrs_after_entry.median,latest.admissions.sat_scores.average.overall,latest.student.size,latest.cost.tuition.in_state,latest.cost.tuition.out_of_state&school.city=" +
       city +
       "&api_key=" +
       apiKey;
