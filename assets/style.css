@@ -87,7 +87,7 @@ body {
   font-size: 12px;
 }
 
-/* This section is dedicated to the school informatino pages  */
+/* This section is dedicated to the school information pages  */
 
 #teleportIssue {
   font-family: "Marcellus", serif;
@@ -138,8 +138,7 @@ body {
   padding: 20px;
 }
 #school-info,
-#chosenbutton,
-#uni-buttons {
+#chosenbutton {
   font-family: "Marcellus", serif;
   font-family: "Old Standard TT", serif;
   font-family: "Pontano Sans", sans-serif;
@@ -164,7 +163,10 @@ body {
   color: black;
 }
 
-/* This section is dedicated to the Contact Us Page */
+.logo {
+  height: 136px;
+  width: auto;
+}
 
 #nameContactUs {
   font-family: "Marcellus", serif;
