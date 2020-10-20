@@ -443,7 +443,7 @@ $(document).ready(function () {
       console.log("CITIES HERE", cityArray);
     });
     console.log("IT HERE", cityArray);
-    if (city !== cityArray) {
+    if (cityArray.includes(city)) {
       $("#final-widget").addClass("d-none");
       $("#hide-alert").removeClass("d-none");
     }
