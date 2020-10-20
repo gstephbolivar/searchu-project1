@@ -6,8 +6,10 @@ body {
 }
 
 #hide-alert{
-  background-color: white;
-  color: black;
+  background-color: transparent;
+  color: white;
+  text-align: center;
+  margin-top: 100px;
 }
 #search-U1 {
   font-family: "Cinzel Decorative", cursive;
