@@ -26,6 +26,11 @@ body {
   margin-right: auto;
 }
 
+#tagline {
+  font-family: "Bad Script", cursive;
+  font-size: 20px;
+}
+
 #icon {
   font-family: "Cinzel Decorative", cursive;
 }
