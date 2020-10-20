@@ -1,5 +1,4 @@
 $(document).ready(function () {
-  console.log("This works");
   // DOM VARIABLES
   var userCity = document.getElementById("city-search");
 
@@ -27,33 +26,12 @@ $(document).ready(function () {
 
   // gets college information by name of the school
   // school name has autocomplete -- allows user to enter keywords to get a list of school with those words
-  // may be able to use this to autocomplete search field and then search for specific school
 
-  // I want to use this function to just be the API call and maybe pass in parameters that will determine what function is called within this to a) populate the list of universities or b) populate the information for the selected school
   function getCollegeInfo(searchSchool) {
     // gets the school searched to pass to the API
 
-    console.log("School Searched: " + searchSchool);
-
     // api key
     var apiKey = "BZXyW8EkmJtygGmoPPNTT8iIeiTbeshMqgalfuXm";
-
-    // use latest. to get the most recent information
-
-    // gets school.name
-    // school.city
-    // school.state
-    // avg_net_price.overall tuition cost
-    // overall admissions rate (admissions.admission_rate.overall)
-    // completion rate (completion.consumer_rate)
-    // school url (school.school_url)
-    // average SAT score (latest.admissions.sat_scores.average.overall)
-    // median debt (latest.aid.median.debt.completers.overall)
-    // in state tuition (latest.cost.tuition.in_state)
-    // out of state tuition (latest.cost.tuition.out_of_state)
-    // earnings after graduation (latest.earnings.6_yrs_after_entry.median)
-    // median household income (latest.student.demographics.median_hh_income)
-    // undergraduate student size  (latest.student.size)
 
     var url =
       "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,school.city,school.state,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url,latest.student.demographics.median_hh_income,latest.aid.median_debt.completers.overall,latest.earnings.6_yrs_after_entry.median,latest.admissions.sat_scores.average.overall,latest.student.size,latest.cost.tuition.in_state,latest.cost.tuition.out_of_state&school.name=" +
@@ -65,10 +43,7 @@ $(document).ready(function () {
       url: url,
       method: "GET",
     }).then(function (response) {
-      //console.log("2");
-      //console.log("city" + JSON.stringify(response, null, 2));
-
-      //populateCollegeList(schoolName, schoolCity, schoolState, schoolURL);
+    
 
       // calls populate college list function passing the object from the API call
       if (finalSchool === false) {
@@ -82,7 +57,6 @@ $(document).ready(function () {
   // creates the buttons for each college from the API call object
   function populateCollegeList(response) {
     for (var i = 0; i < response.results.length; i++) {
-      //console.log(response.results[i]["school.name"]);
       schoolName = response.results[i]["school.name"];
       schoolCity = response.results[i]["school.city"];
       schoolState = response.results[i]["school.state"];
@@ -198,18 +172,6 @@ $(document).ready(function () {
         );
 
         $("#chosenbutton").append(newRow);
-        // createList(schoolName, annualCost, schoolURL);
-        // admissionsRate =
-        //   response.results[i]["latest.admissions.admission_rate.overall"];
-        // completionRate = response.results[i]["latest.completion.consumer_rate"];
-        // schoolURL = response.results[i]["school.school_url"];
-        // console.log("Name: " + schoolName);
-        // console.log("URL: " + schoolURL);
-        // console.log("City: " + schoolCity);
-        // console.log("Admission Rate: " + admissionsRate);
-        // console.log("Annual Cost: " + annualCost);
-        // console.log("Completion Rate: " + completionRate);
-        // console.log("--------");
       }
     });
 
@@ -219,8 +181,6 @@ $(document).ready(function () {
 
   // function takes in the object from the API call in order to populate school details
   function schoolPage(response) {
-    console.log("this is a test of schoolPage");
-    console.log(response);
 
     // school name
     schoolName = response.results[0]["school.name"];
@@ -259,7 +219,6 @@ $(document).ready(function () {
     // median debt
     var debt = response.results[0]["latest.aid.median_debt.completers.overall"];
 
-    console.log(debt);
     // median earnings
     var earnings =
       response.results[0]["latest.earnings.6_yrs_after_entry.median"];
@@ -412,8 +371,11 @@ $(document).ready(function () {
       url: queryURL,
       method: "GET",
     }).then(function (response) {
+<<<<<<< HEAD
+=======
       console.log("Look at this", response);
       console.log(queryURL);
+>>>>>>> 35727a78e3591783e2b7b00a5102791cca5693bf
       for (
         var i = 0;
         i < response._embedded["city:search-results"].length;
@@ -421,7 +383,6 @@ $(document).ready(function () {
       ) {
         var cityName =
           response._embedded["city:search-results"][i].matching_full_name;
-        //console.log("City: " + cityName);
       }
     });
   }
@@ -471,7 +432,6 @@ $(document).ready(function () {
 
   // FUNCTION CALLS
 
-  console.log("colleges");
 
   getQualityOfLife();
 
@@ -493,8 +453,7 @@ $(document).ready(function () {
     getCollegeInfo(school);
   });
 
-  // need to create event listener to check for when a university button is pressed --> this will call function to display university information
-
+  // event listener to create school page
   $("#chosenbutton").on("click", "button", function (event) {
     event.preventDefault();
     $("#school-list").addClass("d-none");
@@ -512,6 +471,9 @@ $(document).ready(function () {
     getCity($(this).attr("school-city"));
     $("#final-page").removeClass("d-none");
   });
+<<<<<<< HEAD
+=======
 
   // could possible use the same functions if parameters are passed in properly to fork which function are called after the API information is received
+>>>>>>> 35727a78e3591783e2b7b00a5102791cca5693bf
 });
