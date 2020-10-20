@@ -25,30 +25,44 @@ $(document).ready(function () {
 
   // FUNCTION DEFINITIONS
 
-  // gets college information by name of the school
-  // school name has autocomplete -- allows user to enter keywords to get a list of school with those words
+  // gets college information by name of the school and optionally the city
 
-  function getCollegeInfo(searchSchool) {
+  function getCollegeInfo(searchSchool, city) {
     // gets the school searched to pass to the API
+    // if this function is called to get school details, the function also takes in the city to pass to the url
+    if (finalSchool === true) {
+      var apiKey = "BZXyW8EkmJtygGmoPPNTT8iIeiTbeshMqgalfuXm";
 
-    // api key
-    var apiKey = "BZXyW8EkmJtygGmoPPNTT8iIeiTbeshMqgalfuXm";
+      var url =
+        "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,school.city,school.state,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url,latest.student.demographics.median_hh_income,latest.aid.median_debt.completers.overall,latest.earnings.6_yrs_after_entry.median,latest.admissions.sat_scores.average.overall,latest.student.size,latest.cost.tuition.in_state,latest.cost.tuition.out_of_state&school.name=" +
+        searchSchool +
+        "&school.city=" +
+        city +
+        "&api_key=" +
+        apiKey;
 
-    var url =
-      "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,school.city,school.state,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url,latest.student.demographics.median_hh_income,latest.aid.median_debt.completers.overall,latest.earnings.6_yrs_after_entry.median,latest.admissions.sat_scores.average.overall,latest.student.size,latest.cost.tuition.in_state,latest.cost.tuition.out_of_state&school.name=" +
-      searchSchool +
-      "&api_key=" +
-      apiKey;
+      // just takes the school name to search and return the object
+    } else {
+      // api key
+      var apiKey = "BZXyW8EkmJtygGmoPPNTT8iIeiTbeshMqgalfuXm";
 
+      var url =
+        "https://api.data.gov/ed/collegescorecard/v1/schools?_fields=school.name,school.city,school.state,latest.cost.avg_net_price.overall,latest.admissions.admission_rate.overall,latest.completion.consumer_rate,school.school_url,latest.student.demographics.median_hh_income,latest.aid.median_debt.completers.overall,latest.earnings.6_yrs_after_entry.median,latest.admissions.sat_scores.average.overall,latest.student.size,latest.cost.tuition.in_state,latest.cost.tuition.out_of_state&school.name=" +
+        searchSchool +
+        "&api_key=" +
+        apiKey;
+    }
     $.ajax({
       url: url,
       method: "GET",
     }).then(function (response) {
+      console.log(response);
       // calls populate college list function passing the object from the API call
       if (finalSchool === false) {
         populateCollegeList(response);
       } else {
         schoolPage(response);
+        console.log(response);
       }
     });
   }
@@ -384,6 +398,8 @@ $(document).ready(function () {
     $("#school-list").removeClass("d-none");
     finalSchool = false;
     var school = userSchool.val();
+
+    // only passes the school name to populate the school list
     getCollegeInfo(school);
   });
 
@@ -392,7 +408,8 @@ $(document).ready(function () {
     event.preventDefault();
     $("#school-list").addClass("d-none");
     finalSchool = true;
-    getCollegeInfo($(this).attr("school-name"));
+    // takes in the school name and the city to get the searched school details
+    getCollegeInfo($(this).attr("school-name"), $(this).attr("school-city"));
     getCity($(this).attr("school-city"));
     $("#final-page").removeClass("d-none");
   });
