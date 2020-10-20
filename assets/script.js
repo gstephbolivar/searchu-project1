@@ -123,7 +123,6 @@ $(document).ready(function () {
       method: "GET",
     }).then(function (response) {
       //console.log("1");
-      console.log("city" + JSON.stringify(response, null, 2));
       // obtains a list of all school names
       for (var i = 0; i < response.results.length; i++) {
         schoolName = response.results[i]["school.name"];
@@ -397,33 +396,39 @@ $(document).ready(function () {
         //console.log(cityObj[i]);
         cityArray.push(cityObj[i]);
       }
+      if (cityArray.includes(city)) {
+        var teleport = `
+      <a
+      class="teleport-widget-link"
+      href="https://teleport.org/cities/${city}/"
+      ></a
+    >
+    <script
+      async
+      class="teleport-widget-script"
+      id="widget-search"
+      data-url="https://teleport.org/cities/${city}/widget/scores/?currency=USD&citySwitcher=false"
+      data-max-width="770"
+      data-height="977"
+      src="https://teleport.org/assets/firefly/widget-snippet.min.js"
+    ></script>
+      `;
+  
+      $("#final-widget").empty();
+      $("#final-widget").append(teleport);
+        
+      } else {
+        $("#final-widget").addClass("d-none");
+        $("#hide-alert").removeClass("d-none");
+        // $("#hide-alert").addClass("d-block");
+      }
       console.log("CITIES HERE", cityArray);
+
     });
     console.log("IT HERE", cityArray);
-    if (cityArray.includes(city)) {
-      $("#final-widget").addClass("d-none");
-      $("#hide-alert").removeClass("d-none");
-    }
+    
 
-    var teleport = `
-    <a
-    class="teleport-widget-link"
-    href="https://teleport.org/cities/${city}/"
-    ></a
-  >
-  <script
-    async
-    class="teleport-widget-script"
-    id="widget-search"
-    data-url="https://teleport.org/cities/${city}/widget/scores/?currency=USD&citySwitcher=false"
-    data-max-width="770"
-    data-height="977"
-    src="https://teleport.org/assets/firefly/widget-snippet.min.js"
-  ></script>
-    `;
-
-    $("#final-widget").empty();
-    $("#final-widget").append(teleport);
+    
   }
 
   // FUNCTION CALLS
