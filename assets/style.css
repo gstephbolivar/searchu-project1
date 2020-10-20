@@ -5,7 +5,7 @@ body {
   padding-bottom: 72px;
 }
 
-#hide-alert{
+#hide-alert {
   background-color: white;
   color: black;
 }
@@ -21,7 +21,7 @@ body {
 #search-U2 {
   font-family: "Abril Fatface", cursive;
   color: white;
-  background: lightgray(0, 0, 0); 
+  background: lightgray(0, 0, 0);
   font-size: 150px;
   margin-top: 15%;
   margin-left: 1%;
@@ -115,8 +115,7 @@ body {
   padding: 20px;
 }
 #school-info,
-#chosenbutton,
-#uni-buttons {
+#chosenbutton {
   font-family: "Marcellus", serif;
   font-family: "Old Standard TT", serif;
   font-family: "Pontano Sans", sans-serif;
