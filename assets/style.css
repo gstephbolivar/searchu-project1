@@ -137,3 +137,8 @@ body {
 .divider {
   border-bottom: 1px solid black;
 }
+
+.logo {
+  height: 129px;
+  width: auto;
+}

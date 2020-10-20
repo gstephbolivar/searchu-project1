@@ -104,7 +104,7 @@ $(document).ready(function () {
       );
 
       // sets the styling the logo
-      collegeLogo.addClass("float-left pr-3");
+      collegeLogo.addClass("float-left pr-3 logo");
       newRow.append(collegeLogo);
 
       newRow.append('<h3 id="school">' + schoolName + "</h3>");
@@ -222,7 +222,7 @@ $(document).ready(function () {
       "this.onerror=null;this.src='./assets/photos/generic-uni-logo.png'"
     );
 
-    collegeLogo.addClass("float-left pr-3");
+    collegeLogo.addClass("float-left pr-3 logo");
     schoolInfoHeader.append(collegeLogo);
 
     schoolInfoHeader.append("<h1 class='text-center'>" + schoolName + "</h1>");
