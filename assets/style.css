@@ -2,6 +2,7 @@ body {
   background-image: url(./photos/library2.jpg);
   background-size: cover;
   background-repeat: no-repeat;
+  padding-bottom: 72px;
 }
 #search-U1 {
   font-family: "Cinzel Decorative", cursive;
@@ -136,4 +137,38 @@ body {
 
 .divider {
   border-bottom: 1px solid black;
+}
+
+#nameContactUs {
+  font-family: "Marcellus", serif;
+  font-family: "Old Standard TT", serif;
+  font-family: "Pontano Sans", sans-serif;
+  font-family: "Tenor Sans", sans-serif;
+  font-size: 30px;
+}
+
+#titleContactUs {
+  font-family: "Marcellus", serif;
+  font-family: "Old Standard TT", serif;
+  font-family: "Pontano Sans", sans-serif;
+  font-family: "Tenor Sans", sans-serif;
+  font-size: 20px;
+}
+
+#linkContactUs {
+  color: black;
+  font-family: "Marcellus", serif;
+  font-family: "Old Standard TT", serif;
+  font-family: "Pontano Sans", sans-serif;
+  font-family: "Tenor Sans", sans-serif;
+  font-size: 15px;
+}
+
+#link {
+  color: rgb(80, 35, 35);
+}
+
+#contactBox {
+  margin-left: auto;
+  margin-right: auto;
 }
