@@ -21,6 +21,8 @@ $(document).ready(function () {
   // boolean for determining information loaded when calling getCollegeInfo()
   var finalSchool;
 
+  var cityArray = [];
+
   // FUNCTION DEFINITIONS
 
   // gets college information by name of the school
@@ -91,6 +93,7 @@ $(document).ready(function () {
         "list-group-item list-group-item-action col-md-12"
       );
       newRowBtn.attr("school-name", schoolName);
+      newRowBtn.attr("school-city", schoolCity);
 
       // sets the logo for the university on the button
       var collegeLogo = $("<img>").attr(
@@ -211,6 +214,7 @@ $(document).ready(function () {
     });
 
     getCity(city);
+    // console.log("HELLO", city);
   }
 
   // function takes in the object from the API call in order to populate school details
@@ -401,15 +405,15 @@ $(document).ready(function () {
 
   // Gets the city or cities if more than one with the same name
   function getQualityOfLife() {
-    var city = "Atlanta";
+    var city = "";
     var queryURL = "https://api.teleport.org/api/cities/?search=" + city;
 
     $.ajax({
       url: queryURL,
       method: "GET",
     }).then(function (response) {
-      //console.log(response);
-      //console.log(queryURL);
+      console.log("Look at this", response);
+      console.log(queryURL);
       for (
         var i = 0;
         i < response._embedded["city:search-results"].length;
@@ -420,12 +424,30 @@ $(document).ready(function () {
         //console.log("City: " + cityName);
       }
     });
-
-    // var getCity = $("#widget-search");
-    // console.log("Here:" + JSON.stringify(window.getCity));
   }
   function getCity(city) {
     city = city.toLowerCase();
+    $.ajax({
+      url:
+        "https://cors-anywhere.herokuapp.com/https://developers.teleport.org/assets/urban_areas.json",
+      method: "GET",
+      //crossDomain: true,
+    }).then(function (response) {
+      //console.log(response);
+      var cityObj = Object.values(response);
+      //console.log(cityObj.length);
+      for (var i = 0; i < cityObj.length; i++) {
+        //console.log(cityObj[i]);
+        cityArray.push(cityObj[i]);
+      }
+      console.log("CITIES HERE", cityArray);
+    });
+    console.log("IT HERE", cityArray);
+    if (city !== cityArray) {
+      $("#final-widget").addClass("d-none");
+      $("#hide-alert").removeClass("d-none");
+    }
+
     var teleport = `
     <a
     class="teleport-widget-link"
@@ -441,30 +463,17 @@ $(document).ready(function () {
     data-height="977"
     src="https://teleport.org/assets/firefly/widget-snippet.min.js"
   ></script>
-    `
+    `;
+
     $("#final-widget").empty();
     $("#final-widget").append(teleport);
-
-    var widgetCity = "miami";
-    var queryURLWidget =
-      "https://teleport.org/cities/" +
-      widgetCity +
-      "/widget/scores/?currency=USD&citySwitcher=false";
-
-    $.ajax({
-      url: queryURLWidget,
-      methond: "GET",
-    }).then(function (response) {
-      console.log(response);
-      console.log(queryURLWidget);
-    });
   }
+
   // FUNCTION CALLS
-  // getCity();
+
   console.log("colleges");
 
   getQualityOfLife();
-  // qWidget();
 
   // EVENT LISTENERS
   $("#submit-city").on("click", function (event) {
@@ -500,7 +509,9 @@ $(document).ready(function () {
     $("#uni-list").addClass("d-none");
     finalSchool = true;
     getCollegeInfo($(this).attr("school-name"));
+    getCity($(this).attr("school-city"));
     $("#final-page").removeClass("d-none");
   });
+
   // could possible use the same functions if parameters are passed in properly to fork which function are called after the API information is received
 });
