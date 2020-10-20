@@ -4,6 +4,11 @@ body {
   background-repeat: no-repeat;
   padding-bottom: 72px;
 }
+
+#hide-alert{
+  background-color: white;
+  color: black;
+}
 #search-U1 {
   font-family: "Cinzel Decorative", cursive;
   color: white;
