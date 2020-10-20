@@ -31,7 +31,7 @@ $(document).ready(function () {
   function getCollegeInfo(searchSchool) {
     // gets the school searched to pass to the API
 
-    console.log("School Searched: " + searchSchool);
+    //console.log("School Searched: " + searchSchool);
 
     // api key
     var apiKey = "BZXyW8EkmJtygGmoPPNTT8iIeiTbeshMqgalfuXm";
@@ -78,20 +78,19 @@ $(document).ready(function () {
   }
 
   // creates the buttons for each college from the API call object
+
   function populateCollegeList(response) {
     for (var i = 0; i < response.results.length; i++) {
-      //console.log(response.results[i]["school.name"]);
       schoolName = response.results[i]["school.name"];
-      schoolCity = response.results[i]["school.city"];
-      schoolState = response.results[i]["school.state"];
+      // schoolCity = response.results[i]["school.city"];
       annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
       schoolURL = response.results[i]["school.school_url"];
-      // creates a new button with the name of the school, the city and state, and the url
-      var newRowBtn = $("<button>").addClass(
+      completionRate = response.results[i]["latest.completion.consumer_rate"];
+
+      var newRow = $("<button>").addClass(
         "list-group-item list-group-item-action col-md-12"
       );
-      newRowBtn.attr("school-name", schoolName);
-
+      newRow.attr("school-name", schoolName);
       // sets the logo for the university on the button
       var collegeLogo = $("<img>").attr(
         "src",
@@ -106,30 +105,46 @@ $(document).ready(function () {
 
       // sets the styling the logo
       collegeLogo.addClass("float-left pr-3");
-      newRowBtn.append(collegeLogo);
+      newRow.append(collegeLogo);
 
-      newRowBtn.append('<h3 id="school">' + schoolName + "</h3>");
+      newRow.append('<h3 id="school">' + schoolName + "</h3>");
 
-      newRowBtn.append(
-        '<h5 id="city">' + "City: " + schoolCity + ", " + schoolState + "</h5>"
+      newRow.append(
+        '<h5 id="avg-cost">' +
+          "Annual Tuition: " +
+          formatTuition(annualCost) +
+          "</h5>"
       );
-
-      newRowBtn.append(
-        "Website: " +
-          '<a href="' +
+      newRow.append(
+        '<h5 id="comp-rate">' +
+          "Completion Rate: " +
+          formatCompRate(completionRate) +
+          "</h5>"
+      );
+      newRow.append(
+        '<a href="' +
           urlFormat(schoolURL) +
           '" target="_blank">' +
           urlFormat(schoolURL) +
           "</a>"
       );
 
-      $("#uni-buttons").append(newRowBtn);
+      $("#chosenbutton").append(newRow);
+      // createList(schoolName, annualCost, schoolURL);
+      // admissionsRate =
+      //   response.results[i]["latest.admissions.admission_rate.overall"];
+      // completionRate = response.results[i]["latest.completion.consumer_rate"];
+      // schoolURL = response.results[i]["school.school_url"];
+      // console.log("Name: " + schoolName);
+      // console.log("URL: " + schoolURL);
+      // console.log("City: " + schoolCity);
+      // console.log("Admission Rate: " + admissionsRate);
+      // console.log("Annual Cost: " + annualCost);
+      // console.log("Completion Rate: " + completionRate);
+      // console.log("--------");
     }
   }
-
-  function getCollegesByCity() {
-    // variable to search API by city
-    var city = userCity.value;
+  function getCollegesByCity(city) {
     // api key
     var apiKey = "BZXyW8EkmJtygGmoPPNTT8iIeiTbeshMqgalfuXm";
 
@@ -145,76 +160,16 @@ $(document).ready(function () {
       method: "GET",
     }).then(function (response) {
       //console.log("1");
-      console.log("city" + JSON.stringify(response, null, 2));
+      //console.log("city" + JSON.stringify(response, null, 2));
       // obtains a list of all school names
-      for (var i = 0; i < response.results.length; i++) {
-        schoolName = response.results[i]["school.name"];
-        // schoolCity = response.results[i]["school.city"];
-        annualCost = response.results[i]["latest.cost.avg_net_price.overall"];
-        schoolURL = response.results[i]["school.school_url"];
-        completionRate = response.results[i]["latest.completion.consumer_rate"];
-        var newRow = $("<button>").addClass(
-          "list-group-item list-group-item-action col-md-12"
-        );
-        newRow.attr("school-name", schoolName);
-        // sets the logo for the university on the button
-        var collegeLogo = $("<img>").attr(
-          "src",
-          "https://logo.clearbit.com/" + urlFormat(schoolURL)
-        );
-
-        // sets default image in case clearbit is not able to pull university logo
-        collegeLogo.attr(
-          "onerror",
-          "this.onerror=null;this.src='./assets/photos/generic-uni-logo.png'"
-        );
-
-        // sets the styling the logo
-        collegeLogo.addClass("float-left pr-3");
-        newRow.append(collegeLogo);
-
-        newRow.append('<h3 id="school">' + schoolName + "</h3>");
-        newRow.append(
-          '<h5 id="avg-cost">' +
-            "Annual Tuition: " +
-            formatTuition(annualCost) +
-            "</h5>"
-        );
-        newRow.append(
-          '<h5 id="comp-rate">' +
-            "Completion Rate: " +
-            formatCompRate(completionRate) +
-            "</h5>"
-        );
-        newRow.append(
-          '<a href="' +
-            urlFormat(schoolURL) +
-            '" target="_blank">' +
-            urlFormat(schoolURL) +
-            "</a>"
-        );
-
-        $("#chosenbutton").append(newRow);
-        // createList(schoolName, annualCost, schoolURL);
-        // admissionsRate =
-        //   response.results[i]["latest.admissions.admission_rate.overall"];
-        // completionRate = response.results[i]["latest.completion.consumer_rate"];
-        // schoolURL = response.results[i]["school.school_url"];
-        // console.log("Name: " + schoolName);
-        // console.log("URL: " + schoolURL);
-        // console.log("City: " + schoolCity);
-        // console.log("Admission Rate: " + admissionsRate);
-        // console.log("Annual Cost: " + annualCost);
-        // console.log("Completion Rate: " + completionRate);
-        // console.log("--------");
-      }
+      populateCollegeList(response);
     });
   }
 
   // function takes in the object from the API call in order to populate school details
   function schoolPage(response) {
-    console.log("this is a test of schoolPage");
-    console.log(response);
+    //console.log("this is a test of schoolPage");
+    //console.log(response);
 
     // school name
     schoolName = response.results[0]["school.name"];
@@ -253,7 +208,7 @@ $(document).ready(function () {
     // median debt
     var debt = response.results[0]["latest.aid.median_debt.completers.overall"];
 
-    console.log(debt);
+    //console.log(debt);
     // median earnings
     var earnings =
       response.results[0]["latest.earnings.6_yrs_after_entry.median"];
@@ -422,7 +377,7 @@ $(document).ready(function () {
 
   // FUNCTION CALLS
 
-  console.log("colleges");
+  //console.log("colleges");
 
   getQualityOfLife();
   // qWidget();
@@ -432,14 +387,16 @@ $(document).ready(function () {
     event.preventDefault();
     $("#home-page").addClass("d-none");
     $("#school-list").removeClass("d-none");
-    getCollegesByCity();
+    // variable to search API by city
+    var city = userCity.value;
+    getCollegesByCity(city);
   });
 
   // listens for the university search button to populate the university names
   $("#submit-school").on("click", function (event) {
     event.preventDefault();
     $("#home-page").addClass("d-none");
-    $("#uni-list").removeClass("d-none");
+    $("#school-list").removeClass("d-none");
     finalSchool = false;
     var school = userSchool.val();
     getCollegeInfo(school);
