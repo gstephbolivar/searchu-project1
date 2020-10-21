@@ -35,21 +35,25 @@ When the user selects a school they will be shown more detailed information abou
 
 * Obtains company logos
 
-* Code to get logos from clearbit
-
-````// clearbit api to add university logos
-// newSchool.append(
-// \$("<img>").attr(
-// "src",
-// "https://logo.clearbit.com/" + urlFormat(schoolURL)
-// )
-// );
-//newSchool.append(newRowBtn);```
-````
 ## **Photos Used**
 [Pexels](https://www.pexels.com/)
 
 *Used an image for the background 
+
+## **Future Development**
+
+* Add the ability to store a colleges information so the user could do a comparison with other colleges.
+
+* Add autocomplete information to search boxes to make searching more user-friendly (ex. Autocomplete the name of a city when user is searching by city name).
+
+* Obtain information for more cities to be able to help the user know the quality of life for more cities.
+
+* Correct Media Queries (cell phone access) layout.
+
+* More time to parse the college data (majors, degrees, grad programs, etc).
+
+* Add data analytics to estimate final college spending.
+
 
 ## **Contact**
 
