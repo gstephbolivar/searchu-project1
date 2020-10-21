@@ -85,10 +85,10 @@ $(document).ready(function () {
       newRow.attr("school-city", schoolCity);
 
       // sets the logo for the university on the button
-      var collegeLogo = $("<img>").attr(
-        "src",
-        "https://logo.clearbit.com/" + urlFormat(schoolURL)
-      );
+      var collegeLogo = $("<img>").attr({
+        src: "https://logo.clearbit.com/" + urlFormat(schoolURL),
+        alt: schoolName + " Logo Image",
+      });
 
       // sets default image in case clearbit is not able to pull university logo
       collegeLogo.attr(
@@ -163,10 +163,10 @@ $(document).ready(function () {
     schoolURL = response.results[0]["school.school_url"];
 
     // school logo
-    collegeLogo = $("<img>").attr(
-      "src",
-      "https://logo.clearbit.com/" + urlFormat(schoolURL)
-    );
+    collegeLogo = $("<img>").attr({
+      src: "https://logo.clearbit.com/" + urlFormat(schoolURL),
+      alt: schoolName + " Logo Image",
+    });
 
     // school city
     schoolCity = response.results[0]["school.city"];
@@ -384,23 +384,32 @@ $(document).ready(function () {
   // EVENT LISTENERS
   $("#submit-city").on("click", function (event) {
     event.preventDefault();
-    $("#home-page").addClass("d-none");
-    $("#school-list").removeClass("d-none");
-    // variable to search API by city
     var city = userCity.value;
-    getCollegesByCity(city);
+    if (city === "") {
+      $("#city-error").modal("show");
+    } else {
+      $("#home-page").addClass("d-none");
+      $("#school-list").removeClass("d-none");
+      // variable to search API by city
+
+      getCollegesByCity(city);
+    }
   });
 
   // listens for the university search button to populate the university names
   $("#submit-school").on("click", function (event) {
     event.preventDefault();
-    $("#home-page").addClass("d-none");
-    $("#school-list").removeClass("d-none");
-    finalSchool = false;
     var school = userSchool.val();
+    if (school === "") {
+      $("#school-error").modal("show");
+    } else {
+      $("#home-page").addClass("d-none");
+      $("#school-list").removeClass("d-none");
+      finalSchool = false;
 
-    // only passes the school name to populate the school list
-    getCollegeInfo(school);
+      // only passes the school name to populate the school list
+      getCollegeInfo(school);
+    }
   });
 
   // event listener to create school page
