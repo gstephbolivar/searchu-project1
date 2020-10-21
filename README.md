@@ -17,7 +17,7 @@ Once the user makes a search they will be shown a list of either all of the scho
 When the user selects a school they will be shown more detailed information about that school and will also be shown a quality of life table for the city that school is in. If the city does not have quality of life information available, the user will be notified of this with an on-screen message. 
 
 ## **Demo/Images**
-![demo gif]()
+![demo gif](assets/gifs/search-u-gif.gif)
 
 ## **Technology Stack**
 * HTML, CSS, Javascript, Jquery, Bootstrap, Font Awesome,
