@@ -1,11 +1,11 @@
 # **Search-U**
 
 ## **Live Link**
-[Search-U](https://gstephboli.github.io/searchu-project1/)
+[Search-U](https://gstephbolivar.github.io/searchu-project1/)
 
 ## **Contributors**
 * [Jennifer Funchess](https://github.com/JenniferFunchess)
-* [Stephany Bolivar](https://github.com/gstephboli)
+* [Stephany Bolivar](https://github.com/gstephbolivar)
 * [Neil Gandhi](https://github.com/ntch2000)
 * [Robert Anderson](https://github.com/reanderson89)
 
@@ -62,7 +62,7 @@ When the user selects a school they will be shown more detailed information abou
 *  **Email:** [reanderson89@gmail.com](reanderson89@gmail.com)
 
 ####  **Stephany Bolivar** 
-*  **Github:** [@gstephboli](https://github.com/gstephboli)
+*  **Github:** [@gstephboli](https://github.com/gstephbolivar)
 *  **Email:** [g.stephanybolivar@gmail.com](g.stephanybolivar@gmail.com)
 
 ####  **Jennifer Funchess** 
